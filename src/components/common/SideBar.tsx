@@ -1,6 +1,8 @@
 import React from "react";
 import Logo from "./Logo";
 import Button from "./Button";
+import SideBarList from "./SideBarList";
+import { sidebarItems } from "@/libs/dummyData";
 
 const SideBar = () => {
   return (
@@ -10,6 +12,7 @@ const SideBar = () => {
         <Button className="w-full bg-primary text-regular font-medium">
           Create a Room +
         </Button>
+        <SideBarList items={sidebarItems} />
       </div>
     </div>
   );
