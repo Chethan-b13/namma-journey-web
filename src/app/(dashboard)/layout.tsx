@@ -1,6 +1,7 @@
 import Card from "@/components/cards/Card";
 import MetricCard from "@/components/cards/MetricCard";
 import Button from "@/components/common/Button";
+import Filterbar from "@/components/common/FilterBar";
 import Logo from "@/components/common/Logo";
 import SideBar from "@/components/common/SideBar";
 import UserTable from "@/components/Users/UserTable";
@@ -16,7 +17,7 @@ const DashboardLayout = ({
       <div className="flex-1 border-2 border-slate-200 rounded-2xl">
         {/* TO BE DETELED */}
         {/* <UserTable /> */}
-
+        <Filterbar />
         <div className="flex mr-5 gap-3">
           <MetricCard
             title="Travel date"
