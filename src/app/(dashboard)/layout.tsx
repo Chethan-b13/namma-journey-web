@@ -1,7 +1,8 @@
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
 import SideBar from "@/components/common/SideBar";
-import UserTable from "@/components/Users/UserTable";
+import DataTable from "@/components/DataTable/DataTable";
+import { userColumns, usersData } from "@/libs/dummyData";
 import React from "react";
 
 const DashboardLayout = ({
@@ -12,7 +13,7 @@ const DashboardLayout = ({
       <SideBar />
       <div className="flex-1 border-2 border-slate-200 rounded-2xl">
         {/* TO BE DETELED */}
-        <UserTable />
+        <DataTable data={usersData} columns={userColumns} title="User List" />;
       </div>
     </div>
   );
