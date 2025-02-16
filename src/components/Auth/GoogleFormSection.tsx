@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@/components/common/Button";
 import HorizontalLine from "@/components/common/HorizontalLine";
-import InputField from "@/components/common/InputField";
 import { FcGoogle } from "react-icons/fc";
 
 interface GoogleFormSectionProps {
@@ -9,6 +8,9 @@ interface GoogleFormSectionProps {
   buttonText: string;
   googleButtonText: string;
   isLoginPage: boolean;
+  handleEmailLogin?: () => void;
+  handleSignup?: () => void;
+  handleGoogleLogin: () => void;
 }
 
 const GoogleFormSection: React.FC<GoogleFormSectionProps> = ({
@@ -16,11 +18,20 @@ const GoogleFormSection: React.FC<GoogleFormSectionProps> = ({
   buttonText,
   googleButtonText,
   isLoginPage,
+  handleEmailLogin,
+  handleSignup,
+  handleGoogleLogin,
 }) => {
   return (
     <div className="space-y-4">
       {children}
-      <Button className="w-full bg-black text-white">{buttonText}</Button>
+
+      <Button
+        className="w-full bg-black text-white"
+        onClick={isLoginPage ? handleEmailLogin : handleSignup}
+      >
+        {buttonText}
+      </Button>
 
       <div className="space-y-4">
         <div className="w-full flex items-center justify-center gap-4">
@@ -30,6 +41,7 @@ const GoogleFormSection: React.FC<GoogleFormSectionProps> = ({
         </div>
         <Button
           className={`bg-[#F3F9FA] flex items-center justify-center text-black w-full`}
+          onClick={handleGoogleLogin}
         >
           <FcGoogle size={20} />
           <span className="ml-2">{googleButtonText}</span>
