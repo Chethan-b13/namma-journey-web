@@ -1,7 +1,11 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import onBoarding from "../../../public/images/login-bag.svg";
 import Logo from "@/components/common/Logo";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 const AuthLayout = ({
   children,
@@ -23,7 +27,7 @@ const AuthLayout = ({
               Plan, manage, and grow your travel business effortlessly.
             </p>
           </div>
-          {children}
+          <Provider store={store}>{children}</Provider>
         </div>
       </div>
     </div>
