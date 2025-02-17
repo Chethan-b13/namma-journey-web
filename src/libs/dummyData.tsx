@@ -1,7 +1,14 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IconType } from "react-icons";
-import { FaHome, FaSuitcase, FaPlane, FaBed, FaBus, FaLandmark } from "react-icons/fa";
+import {
+  FaHome,
+  FaSuitcase,
+  FaPlane,
+  FaBed,
+  FaBus,
+  FaLandmark,
+} from "react-icons/fa";
 
 interface User {
   name: string;
@@ -148,7 +155,6 @@ export const colors = [
   "bg-gray-400",
 ];
 
-
 // Define User Type (Based on Mongoose Schema)
 export interface UserTableData {
   firstName: string;
@@ -191,7 +197,6 @@ export const usersTable: UserTableData[] = [
   },
 ];
 
-
 // Sidebar Item Type
 export interface SidebarItem {
   name: string;
@@ -212,4 +217,50 @@ export const sidebarItems: SidebarItem[] = [
   { name: "Rooms", icon: FaBed },
   { name: "Transport", icon: FaBus },
   { name: "Attractions", icon: FaLandmark },
+];
+
+//data table
+
+export const usersData = [
+  {
+    profilePic: "",
+    firstName: "John",
+    lastName: "Doe",
+    email: "john@example.com",
+    phone: "123-456-7890",
+    role: ["Admin"],
+    lastLogin: "2024-02-15",
+  },
+  {
+    profilePic: "",
+    firstName: "Jane",
+    lastName: "Smith",
+    email: "jane@example.com",
+    phone: "987-654-3210",
+    role: ["User"],
+    lastLogin: "2024-02-14",
+  },
+];
+
+// Define the types for the props
+export type Column = {
+  label: string;
+  accessor: string;
+  type?: "image" | "array";
+};
+
+export type DataTableProps = {
+  data: Array<Record<string, any>>;
+  columns: Column[];
+  title?: string;
+};
+
+export const userColumns: Column[] = [
+  { label: "Profile", accessor: "profilePic", type: "image" },
+  { label: "First Name", accessor: "firstName" },
+  { label: "Last Name", accessor: "lastName" },
+  { label: "Email", accessor: "email" },
+  { label: "Phone", accessor: "phone" },
+  { label: "Role", accessor: "role", type: "array" },
+  { label: "Last Login", accessor: "lastLogin" },
 ];

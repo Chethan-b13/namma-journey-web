@@ -16,7 +16,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ title, value, children }) => {
       </div>
       <p className="font-semibold text-lg">{value}</p>
       <div className="flex items-end min-h-[20px]">
-        <p className="text-xs">{children}</p>
+        <div className="text-xs">{children}</div>
       </div>
     </div>
   );
