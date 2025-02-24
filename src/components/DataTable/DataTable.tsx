@@ -3,13 +3,42 @@
 import React, { useState } from "react";
 import { FaSort } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import Image from "next/image";
-import { DataTableProps } from "@/libs/dummyData";
 
-const DataTable: React.FC<DataTableProps> = ({ data, columns, title }) => {
+
+interface Column {
+  key: string;
+  title: string;
+  accessor: string;
+  render?: (value: any, row: any) => React.ReactNode;
+}
+
+interface DataTableProps {
+  columns: Column[];
+  data: any[];
+  totalRecords: number;
+  currentPage: number;
+  pageSize: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange?: (pageSize: number) => void;
+}
+
+const DataTable: React.FC<DataTableProps> = ({
+  columns,
+  data = [],
+  totalRecords = 0,
+  currentPage = 1,
+  pageSize = 10,
+  onPageChange,
+  onPageSizeChange,
+}) => {
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState(columns[0].accessor);
+  const [sortBy, setSortBy] = useState(columns[0].key);
   const [sortOrder, setSortOrder] = useState("asc");
+
+  // Add null check
+  if (!data) {
+    return null;
+  }
 
   // Filter & Sort Logic
   const filteredData = data
@@ -33,7 +62,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, title }) => {
     <div className="w-full p-6 bg-white rounded-lg shadow-lg">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">{title || "Data Table"}</h2>
+        <h2 className="text-xl font-semibold">Data Table</h2>
 
         {/* Search Input */}
         <div className="relative">
@@ -61,7 +90,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, title }) => {
                   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
                 }}
               >
-                {col.label} <FaSort className="inline ml-1 text-xs" />
+                {col.title} <FaSort className="inline ml-1 text-xs" />
               </th>
             ))}
           </tr>
@@ -77,26 +106,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, title }) => {
             >
               {columns.map((col, colIndex) => (
                 <td key={colIndex} className="p-3 text-sm">
-                  {col.type === "image" ? (
-                    <Image
-                      src={item[col.accessor] || "/default-avatar.png"}
-                      alt={col.label}
-                      width={30}
-                      height={30}
-                      className="rounded-full object-cover"
-                    />
-                  ) : col.type === "array" ? (
-                    item[col.accessor].map((val: string, idx: number) => (
-                      <span
-                        key={idx}
-                        className="bg-purple-100 text-purple-700 px-2 py-1 rounded-md text-xs mr-1"
-                      >
-                        {val}
-                      </span>
-                    ))
-                  ) : (
-                    item[col.accessor] || "N/A"
-                  )}
+                  {col.render ? col.render(item[col.accessor], item) : item[col.accessor]}
                 </td>
               ))}
             </tr>
@@ -108,6 +118,53 @@ const DataTable: React.FC<DataTableProps> = ({ data, columns, title }) => {
       {filteredData.length === 0 && (
         <p className="text-center text-gray-500 mt-4">No data found.</p>
       )}
+
+      <div className="flex items-center justify-between py-4 px-2">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-600">Showing</span>
+          <select
+            value={pageSize}
+            onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
+            className="border rounded px-2 py-1 text-sm"
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+        </div>
+
+        <div className="text-sm text-gray-600">
+          Showing {(currentPage - 1) * pageSize + 1} to {Math.min(currentPage * pageSize, totalRecords)} out of {totalRecords} records
+        </div>
+
+        <div className="flex gap-1">
+          <button
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-2 py-1 text-gray-600"
+          >
+            ‹
+          </button>
+          {[1, 2, 3, 4].map((page) => (
+            <button
+              key={page}
+              onClick={() => onPageChange(page)}
+              className={`w-8 h-8 rounded-sm ${
+                currentPage === page ? 'border border-purple-500 text-purple-500 rounded-sm' : 'text-gray-600'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage * pageSize >= totalRecords}
+            className="px-2 py-1 text-gray-600"
+          >
+            ›
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -11,8 +11,14 @@ import {
 } from "react-icons/fa";
 
 interface User {
-  name: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
   avatar: string;
+  roles: string[];
+  joined: string;
 }
 
 export interface ColumnData {
@@ -32,14 +38,26 @@ export interface CardProps {
 
 export const users: User[] = [
   {
-    name: "Marta",
+    id: "1",
+    firstName: "Marta",
+    lastName: "S",
+    email: "marta@example.com",
+    phone: "123-456-7890",
     avatar:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyPRXs4YhCJEqwOCyl9Vlt6pA4Zqfsu1aROA&s",
+    roles: ["User"],
+    joined: "2024-01-01",
   },
   {
-    name: "Artur",
+    id: "2",
+    firstName: "Artur",
+    lastName: "K",
+    email: "artur@example.com",
+    phone: "123-456-7891",
     avatar:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrS_HIXt1Uv6NGsgTQhX3KIdpiex9VjjWwGw&s",
+    roles: ["User"],
+    joined: "2024-01-02",
   },
 ];
 
@@ -114,13 +132,15 @@ const PeopleList: React.FC = () => {
             <img
               key={index}
               src={user.avatar}
-              alt={user.name}
+              alt={`${user.firstName} ${user.lastName}`}
               className="size-5 rounded-full border-2 border-white shadow-md"
             />
           ))}
         </div>
         <p className="text-xs w-full">
-          {users?.map((user) => user.name).join(", ")}
+          {users
+            ?.map((user) => `${user.firstName} ${user.lastName}`)
+            .join(", ")}
         </p>
       </div>
 
@@ -242,25 +262,72 @@ export const usersData = [
   },
 ];
 
-// Define the types for the props
-export type Column = {
+// // Define the types for the props
+// export type Column = {
+//   label: string;
+//   accessor: string;
+//   type?: "image" | "array";
+// };
+
+// export type DataTableProps = {
+//   data: Array<Record<string, any>>;
+//   columns: Column[];
+//   title?: string;
+// };
+
+// export const userColumns: Column[] = [
+//   { label: "Profile", accessor: "profilePic", type: "image" },
+//   { label: "First Name", accessor: "firstName" },
+//   { label: "Last Name", accessor: "lastName" },
+//   { label: "Email", accessor: "email" },
+//   { label: "Phone", accessor: "phone" },
+//   { label: "Role", accessor: "role", type: "array" },
+//   { label: "Last Login", accessor: "lastLogin" },
+// ];
+
+export interface Column {
   label: string;
   accessor: string;
-  type?: "image" | "array";
-};
+  type?: "text" | "image" | "array" | "date" | "custom";
+  customRenderer?: (item: any) => React.ReactNode; // For custom rendering logic
+}
 
-export type DataTableProps = {
-  data: Array<Record<string, any>>;
+export interface DataTableProps {
+  data: any[];
   columns: Column[];
   title?: string;
-};
+  onPageChange?: (page: number) => void;
+  page?: number;
+}
 
-export const userColumns: Column[] = [
-  { label: "Profile", accessor: "profilePic", type: "image" },
-  { label: "First Name", accessor: "firstName" },
-  { label: "Last Name", accessor: "lastName" },
-  { label: "Email", accessor: "email" },
-  { label: "Phone", accessor: "phone" },
-  { label: "Role", accessor: "role", type: "array" },
-  { label: "Last Login", accessor: "lastLogin" },
+export const columns: Column[] = [
+  { label: "User", accessor: "name", type: "text" },
+  { label: "Email", accessor: "email", type: "text" },
+  { label: "Phone", accessor: "phone", type: "text" },
+  { label: "Roles", accessor: "roles", type: "array" },
+  {
+    label: "Avatar",
+    accessor: "avatarUrl",
+    type: "image",
+  },
+  {
+    label: "Joined",
+    accessor: "joinedAt",
+    type: "date",
+  },
+];
+
+export const dummyUsers: User[] = [
+  {
+    id: "1",
+    firstName: "John",
+    lastName: "Doe",
+    email: "john@example.com",
+    phone: "123-456-7890",
+    avatar:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9wUHRDiKgRh-PeAdt7x2ooym7wS7-QeY2OA&s",
+    roles: ["Admin"],
+    joined: "2024-01-01",
+  },
+  // Add more dummy users as needed
 ];

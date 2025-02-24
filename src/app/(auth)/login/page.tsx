@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import InputField from "@/components/common/InputField";
 import GoogleFormSection from "@/components/Auth/GoogleFormSection";
-import { emailLogin, googleLogin } from "@/services/authService";
-import { setUser } from "@/store/authSlice";
+import { emailLogin, handleGoogleLogin } from "@/services/authService";
+import { setUser } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 
@@ -19,6 +19,8 @@ const LoginPage = () => {
     try {
       const user = await emailLogin(email, password);
       const token = await user.getIdToken();
+
+      localStorage.setItem("authToken", token);
       dispatch(
         setUser({
           uid: user.uid,
@@ -31,25 +33,6 @@ const LoginPage = () => {
       router.push("/");
     } catch (error) {
       console.error("Login failed:", error);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      const user = await googleLogin();
-      const token = await user.getIdToken();
-      dispatch(
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          token,
-        })
-      );
-      router.push("/");
-    } catch (error) {
-      console.error("Google Login Failed:", error);
     }
   };
 
@@ -77,7 +60,7 @@ const LoginPage = () => {
         </div>
         <GoogleFormSection
           handleEmailLogin={handleEmailLogin}
-          handleGoogleLogin={handleGoogleLogin}
+          handleGoogleLogin={() => handleGoogleLogin(dispatch, router)}
           buttonText="Login"
           googleButtonText="Sign in with Google"
           isLoginPage={true}

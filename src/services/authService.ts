@@ -10,6 +10,8 @@ import {
   User,
 } from "firebase/auth";
 import { auth } from "../config/firebase";
+import { registerUser } from "@/app/api/authApis";
+import { Dispatch } from "redux";
 
 export const googleLogin = async () => {
   const provider = new GoogleAuthProvider();
@@ -50,4 +52,34 @@ export const phoneLogin = async (
 
 export const logout = async () => {
   await signOut(auth);
+  localStorage.removeItem("authToken");
+};
+
+export const handleGoogleLogin = async (
+  dispatch: Dispatch<any>,
+  router: any
+): Promise<void> => {
+  try {
+    const user = await googleLogin();
+    const token = await user.getIdToken();
+    localStorage.setItem("authToken", token);
+
+    const firstName = user.displayName?.split(" ")[0] || "";
+    const lastName = user.displayName?.split(" ")[1] || "";
+
+    await registerUser(
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: user.email || "",
+        firebaseUID: user.uid || "",
+        phone: "+919876543210",
+        role: ["admin"],
+      },
+      dispatch
+    );
+    router.push("/");
+  } catch (error) {
+    console.error("Google Login Failed:", error);
+  }
 };
