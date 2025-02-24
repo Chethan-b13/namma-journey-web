@@ -8,7 +8,7 @@ export const registerUser = async (userData: User, dispatch: Dispatch<any>) => {
   console.log(userData, "user data");
 
   const user = await api
-    .post("/api/auth/register", {
+    .post("/auth/register", {
       firstName: userData.firstName,
       lastName: userData.lastName,
       email: userData.email,

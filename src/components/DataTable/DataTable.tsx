@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { FaSort } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-
+import Filterbar from "../common/FilterBar";
 
 interface Column {
   key: string;
@@ -17,9 +17,10 @@ interface DataTableProps {
   data: any[];
   totalRecords: number;
   currentPage: number;
-  pageSize: number;
+  limit: number;
   onPageChange: (page: number) => void;
-  onPageSizeChange?: (pageSize: number) => void;
+  onlimitChange?: (limit: number) => void;
+  isLoading?: boolean;
 }
 
 const DataTable: React.FC<DataTableProps> = ({
@@ -27,9 +28,10 @@ const DataTable: React.FC<DataTableProps> = ({
   data = [],
   totalRecords = 0,
   currentPage = 1,
-  pageSize = 10,
+  limit = 10,
   onPageChange,
-  onPageSizeChange,
+  onlimitChange,
+  isLoading = true,
 }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState(columns[0].key);
@@ -39,6 +41,9 @@ const DataTable: React.FC<DataTableProps> = ({
   if (!data) {
     return null;
   }
+
+  // calculate total pages
+  const totalPages = Math.ceil(totalRecords / limit);
 
   // Filter & Sort Logic
   const filteredData = data
@@ -64,16 +69,18 @@ const DataTable: React.FC<DataTableProps> = ({
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Data Table</h2>
 
-        {/* Search Input */}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-64 p-2 pl-8 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <FiSearch className="absolute left-2 top-3 text-gray-400" />
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-64 p-2 pl-8 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <FiSearch className="absolute left-2 top-3 text-gray-400" />
+          </div>
+          <Filterbar />
         </div>
       </div>
 
@@ -106,7 +113,9 @@ const DataTable: React.FC<DataTableProps> = ({
             >
               {columns.map((col, colIndex) => (
                 <td key={colIndex} className="p-3 text-sm">
-                  {col.render ? col.render(item[col.accessor], item) : item[col.accessor]}
+                  {col.render
+                    ? col.render(item[col.accessor], item)
+                    : item[col.accessor]}
                 </td>
               ))}
             </tr>
@@ -123,8 +132,8 @@ const DataTable: React.FC<DataTableProps> = ({
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">Showing</span>
           <select
-            value={pageSize}
-            onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
+            value={limit}
+            onChange={(e) => onlimitChange?.(Number(e.target.value))}
             className="border rounded px-2 py-1 text-sm"
           >
             <option value={10}>10</option>
@@ -134,7 +143,9 @@ const DataTable: React.FC<DataTableProps> = ({
         </div>
 
         <div className="text-sm text-gray-600">
-          Showing {(currentPage - 1) * pageSize + 1} to {Math.min(currentPage * pageSize, totalRecords)} out of {totalRecords} records
+          Showing {(currentPage - 1) * limit + 1} to{" "}
+          {Math.min(currentPage * limit, totalRecords)} out of {totalRecords}{" "}
+          records
         </div>
 
         <div className="flex gap-1">
@@ -145,20 +156,22 @@ const DataTable: React.FC<DataTableProps> = ({
           >
             ‹
           </button>
-          {[1, 2, 3, 4].map((page) => (
+          {Array.from({ length: totalPages }, (_, index) => (
             <button
-              key={page}
-              onClick={() => onPageChange(page)}
+              key={index}
+              onClick={() => onPageChange(index + 1)}
               className={`w-8 h-8 rounded-sm ${
-                currentPage === page ? 'border border-purple-500 text-purple-500 rounded-sm' : 'text-gray-600'
+                currentPage === index + 1
+                  ? "border border-purple-500 text-purple-500 rounded-sm"
+                  : "text-gray-600"
               }`}
             >
-              {page}
+              {index + 1}
             </button>
           ))}
           <button
             onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage * pageSize >= totalRecords}
+            disabled={currentPage * limit >= totalRecords}
             className="px-2 py-1 text-gray-600"
           >
             ›

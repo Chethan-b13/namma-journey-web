@@ -19,12 +19,9 @@ const SignupPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [profilePic, setProfilePic] = useState(""); // Optional, depending on your implementation
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
-  const role = "admin";
 
   const handleSignup = async () => {
     if (!email || !password || !confirmPassword) {
