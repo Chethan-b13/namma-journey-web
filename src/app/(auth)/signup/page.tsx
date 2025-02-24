@@ -5,11 +5,10 @@ import InputField from "@/components/common/InputField";
 import GoogleFormSection from "@/components/Auth/GoogleFormSection";
 import { useAppDispatch } from "@/store";
 import { useRouter } from "next/navigation";
-import { emailSignUp, googleLogin } from "@/services/authService";
-import { setUser } from "@/store/authSlice";
-import api from "@/utils/axios";
+import { handleGoogleLogin } from "@/services/authService";
 import { auth } from "@/config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { registerUser } from "@/app/api/authApis";
 
 const SignupPage = () => {
   const dispatch = useAppDispatch();
@@ -47,31 +46,22 @@ const SignupPage = () => {
 
     if (user) {
       const firebaseUID = user.uid;
+      const idToken = await user.getIdToken();
+
+      localStorage.setItem("authToken", idToken);
 
       try {
         // Call backend API to register user
-        const response = await api.post("/api/auth/register", {
-          firstName,
-          lastName,
-          email,
-          firebaseUID,
-          phone,
-          password,
-          profilePic,
-          role,
-        });
-
-        // Assuming the API response includes user data and token
-        const { user, token } = response.data;
-
-        dispatch(
-          setUser({
-            uid: user.firebaseUID,
-            email: user.email,
-            displayName: `${user.firstName} ${user.lastName}`,
-            photoURL: user.profilePic,
-            token,
-          })
+        await registerUser(
+          {
+            firstName,
+            lastName,
+            email,
+            firebaseUID,
+            phone,
+            role: ["admin"],
+          },
+          dispatch
         );
 
         router.push("/"); // Redirect on successful signup
@@ -79,25 +69,6 @@ const SignupPage = () => {
         setError("Signup failed. Try again.");
         console.error("Signup error:", error);
       }
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      const user = await googleLogin();
-      const token = await user.getIdToken();
-      dispatch(
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          token,
-        })
-      );
-      router.push("/");
-    } catch (error) {
-      console.error("Google Login Failed:", error);
     }
   };
 
@@ -144,7 +115,7 @@ const SignupPage = () => {
         />
         <GoogleFormSection
           handleSignup={handleSignup}
-          handleGoogleLogin={handleGoogleLogin}
+          handleGoogleLogin={() => handleGoogleLogin(dispatch, router)}
           buttonText="Sign up"
           googleButtonText="Sign up with Google"
           isLoginPage={false}
