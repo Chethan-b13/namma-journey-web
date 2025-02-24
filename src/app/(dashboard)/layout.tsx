@@ -11,21 +11,22 @@ import PeopleList, {
 import DataTable from "@/components/DataTable/DataTable";
 // import { userColumns, usersData } from "@/libs/dummyData";
 import React from "react";
+import AdminUserTable from "@/components/DataTable/AdminUserTable";
 
 const DashboardLayout = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
-      <div className="flex w-screen h-screen bg-[#FAF9FF]">
-        <SideBar />
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 p-6 overflow-auto">
-            {/* TO BE DETELED */}
-            {/* <DataTable data={usersData} columns={userColumns} title="User List" /> */}
-            {/* TO BE DETELED */}
-            {/* <UserTable /> */}
-            <Filterbar />
-            {/* <div className="flex mr-5 gap-3">
+    <div className="flex w-screen h-screen bg-[#FAF9FF]">
+      <SideBar />
+      <div className="flex-1 flex flex-col">
+        <div className="flex-1 p-6 overflow-auto">
+          {/* TO BE DETELED */}
+          {/* <DataTable data={usersData} columns={userColumns} title="User List" /> */}
+          {/* TO BE DETELED */}
+          <AdminUserTable />
+
+          {/* <div className="flex mr-5 gap-3">
               <MetricCard
                 title="Travel date"
                 value="5 days"
@@ -43,9 +44,9 @@ const DashboardLayout = ({
                 columnCount={4}
               />
             </div> */}
-          </div>
         </div>
       </div>
+    </div>
   );
 };
 

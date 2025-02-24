@@ -15,10 +15,10 @@ const Filterbar: React.FC = () => {
     <>
       {/* Button to open sidebar */}
       <button
-        className="fixed top-5 right-5 bg-primary p-2 rounded-lg shadow-md"
+        className="bg-primary p-2 rounded-lg shadow-md size-10 flex items-center justify-center"
         onClick={() => setIsOpen(true)}
       >
-        <FaFilter className="size-5" />
+        <FaFilter className="size-4" />
       </button>
 
       {/* Sidebar Overlay */}

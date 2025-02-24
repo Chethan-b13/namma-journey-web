@@ -12,3 +12,10 @@ export interface UserState {
   user: User | null;
   isAuthenticated: boolean;
 }
+
+export interface AdminUsersResponse {
+  users: User[];
+  totalUsers: number;
+  currentPage: number;
+  totalPages: number;
+}
