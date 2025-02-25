@@ -17,12 +17,13 @@ const DataTable: React.FC<DataTablePropsType> = ({
   onlimitChange,
   isLoading = false,
   filterConfig,
-  activeFilters = {},
-  setActiveFilters,
 }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState(columns[0].key);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [activeFilters, setActiveFilters] = useState<Record<string, string>>(
+    {}
+  );
 
   if (isLoading) {
     return <TableSkeleton columns={columns} rows={5} actions={3} />;

@@ -35,6 +35,4 @@ export interface DataTablePropsType {
     title: string;
     filters: FilterOptionType[];
   };
-  activeFilters?: Record<string, string>;
-  setActiveFilters?: (filters: Record<string, string>) => void;
 }

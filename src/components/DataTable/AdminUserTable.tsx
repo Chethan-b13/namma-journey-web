@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import DataTable from "./DataTable";
 import { useUsers } from "@/hooks/useUsers";
 import TableSkeleton from "./TableSkeleton";
@@ -9,9 +9,6 @@ import { UserTableColumns } from "./constants/AdminUserConstants";
 import { ColumnType } from "@/types/DataTableTypes";
 
 const AdminUserTable: React.FC = () => {
-  const [activeFilters, setActiveFilters] = useState<Record<string, string>>(
-    {}
-  );
   const {
     users,
     loading,
@@ -61,8 +58,6 @@ const AdminUserTable: React.FC = () => {
         title: "User Filters",
         filters: userFiltersConfig,
       }}
-      activeFilters={activeFilters}
-      setActiveFilters={setActiveFilters}
     />
   );
 };
