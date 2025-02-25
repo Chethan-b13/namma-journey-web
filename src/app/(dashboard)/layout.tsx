@@ -1,6 +1,6 @@
 import Card from "@/components/cards/Card";
 import MetricCard from "@/components/cards/MetricCard";
-import Filterbar from "@/components/common/FilterBar";
+import Filterbar from "@/components/FilterWindow/FilterBar";
 import SideBar from "@/components/common/SideBar";
 import PeopleList, {
   aboutMe,
