@@ -3,27 +3,11 @@
 import React, { useState } from "react";
 import { FaSort } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import Filterbar from "../common/FilterBar";
+import FilterBar from "../FilterWindow/FilterBar";
+import TableSkeleton from "./TableSkeleton";
+import { DataTablePropsType } from "@/types/DataTableTypes";
 
-interface Column {
-  key: string;
-  title: string;
-  accessor: string;
-  render?: (value: any, row: any) => React.ReactNode;
-}
-
-interface DataTableProps {
-  columns: Column[];
-  data: any[];
-  totalRecords: number;
-  currentPage: number;
-  limit: number;
-  onPageChange: (page: number) => void;
-  onlimitChange?: (limit: number) => void;
-  isLoading?: boolean;
-}
-
-const DataTable: React.FC<DataTableProps> = ({
+const DataTable: React.FC<DataTablePropsType> = ({
   columns,
   data = [],
   totalRecords = 0,
@@ -31,11 +15,19 @@ const DataTable: React.FC<DataTableProps> = ({
   limit = 10,
   onPageChange,
   onlimitChange,
-  isLoading = true,
+  isLoading = false,
+  filterConfig,
 }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState(columns[0].key);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [activeFilters, setActiveFilters] = useState<Record<string, string>>(
+    {}
+  );
+
+  if (isLoading) {
+    return <TableSkeleton columns={columns} rows={5} actions={3} />;
+  }
 
   // Add null check
   if (!data) {
@@ -47,14 +39,48 @@ const DataTable: React.FC<DataTableProps> = ({
 
   // Filter & Sort Logic
   const filteredData = data
-    .filter((item) =>
-      columns.some((col) =>
-        item[col.accessor]
+    .filter((item) => {
+      // Search filter
+      const matchesSearch = columns.some((col) => {
+        if (!col.searchable) return false;
+        return item[col.accessor]
           ?.toString()
           .toLowerCase()
-          .includes(search.toLowerCase())
-      )
-    )
+          .includes(search.toLowerCase());
+      });
+
+      // Applied filters
+      const matchesFilters = Object.entries(activeFilters).every(
+        ([key, value]) => {
+          if (!value) return true;
+
+          if (key === "createdAt") {
+            const filterDate = new Date(value).setHours(0, 0, 0, 0);
+            const itemDate = new Date(item[key]).setHours(0, 0, 0, 0);
+            return filterDate === itemDate;
+          }
+
+          // Handle firstName and lastName specifically
+          if (key === "firstname") {
+            return item.firstName
+              ?.toString()
+              .toLowerCase()
+              .includes(value.toLowerCase());
+          }
+          if (key === "lastname") {
+            return item.lastName
+              ?.toString()
+              .toLowerCase()
+              .includes(value.toLowerCase());
+          }
+
+          const itemValue = item[key]?.toString().toLowerCase();
+          return itemValue?.includes(value.toLowerCase());
+        }
+      );
+
+      return matchesSearch && matchesFilters;
+    })
     .sort((a, b) => {
       const valueA = a[sortBy]?.toString().toLowerCase() || "";
       const valueB = b[sortBy]?.toString().toLowerCase() || "";
@@ -80,7 +106,18 @@ const DataTable: React.FC<DataTableProps> = ({
             />
             <FiSearch className="absolute left-2 top-3 text-gray-400" />
           </div>
-          <Filterbar />
+          {filterConfig && (
+            <FilterBar
+              title={filterConfig.title}
+              filters={filterConfig.filters}
+              onFilterApply={(filters) => {
+                setActiveFilters?.(filters);
+              }}
+              onReset={() => {
+                setActiveFilters?.({});
+              }}
+            />
+          )}
         </div>
       </div>
 
@@ -88,18 +125,20 @@ const DataTable: React.FC<DataTableProps> = ({
       <table className="w-full border-collapse bg-white shadow-md rounded-lg">
         <thead>
           <tr className="bg-gray-100">
-            {columns.map((col, index) => (
-              <th
-                key={index}
-                className="p-3 text-left text-sm font-semibold cursor-pointer"
-                onClick={() => {
-                  setSortBy(col.accessor);
-                  setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                }}
-              >
-                {col.title} <FaSort className="inline ml-1 text-xs" />
-              </th>
-            ))}
+            {columns
+              .filter((col) => !col.hidden)
+              .map((col, index) => (
+                <th
+                  key={index}
+                  className="p-3 text-left text-sm font-semibold cursor-pointer"
+                  onClick={() => {
+                    setSortBy(col.accessor);
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  }}
+                >
+                  {col.title} <FaSort className="inline ml-1 text-xs" />
+                </th>
+              ))}
           </tr>
         </thead>
 
@@ -111,13 +150,15 @@ const DataTable: React.FC<DataTableProps> = ({
                 index % 2 === 0 ? "bg-gray-50" : "bg-white"
               }`}
             >
-              {columns.map((col, colIndex) => (
-                <td key={colIndex} className="p-3 text-sm">
-                  {col.render
-                    ? col.render(item[col.accessor], item)
-                    : item[col.accessor]}
-                </td>
-              ))}
+              {columns
+                .filter((col) => !col.hidden)
+                .map((col, colIndex) => (
+                  <td key={colIndex} className="p-3 text-sm">
+                    {col.render
+                      ? col.render(item[col.accessor], item)
+                      : item[col.accessor]}
+                  </td>
+                ))}
             </tr>
           ))}
         </tbody>

@@ -1,7 +1,7 @@
 import { setUser } from "@/store/slices/authSlice";
 
 import api from "@/config/axios";
-import { User } from "@/types/User";
+import { User } from "@/types/UserTypes";
 import { Dispatch } from "react";
 
 export const registerUser = async (userData: User, dispatch: Dispatch<any>) => {
