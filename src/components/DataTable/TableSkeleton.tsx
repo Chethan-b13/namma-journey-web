@@ -17,7 +17,7 @@ const TableSkeleton: React.FC<TableSkeletonProps> = ({
   actions = 0,
 }) => {
   return (
-    <div className="w-full p-6 bg-white rounded-lg shadow-lg animate-pulse">
+    <div className="w-full p-4 bg-white rounded-lg shadow-lg animate-pulse">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="h-8 bg-gray-200 rounded w-48"></div>

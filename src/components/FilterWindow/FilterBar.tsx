@@ -2,7 +2,8 @@
 
 import { FilterBarPropsType } from "@/types/DataTableTypes";
 import { useState } from "react";
-import { FaFilter, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { CgOptions } from "react-icons/cg";
 
 const FilterBar: React.FC<FilterBarPropsType> = ({
   title,
@@ -33,10 +34,11 @@ const FilterBar: React.FC<FilterBarPropsType> = ({
     <>
       {/* Button to open sidebar */}
       <button
-        className="bg-primary p-2 rounded-lg shadow-md size-10 flex items-center justify-center"
+        className="border p-2 rounded-lg flex items-center justify-center gap-2"
         onClick={() => setIsOpen(true)}
       >
-        <FaFilter className="size-4" />
+        <CgOptions className="size-4" />
+        <span className="text-regular font-body">Filter</span>
       </button>
 
       {/* Sidebar Overlay */}
@@ -49,7 +51,7 @@ const FilterBar: React.FC<FilterBarPropsType> = ({
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 right-0 h-full w-72 bg-white shadow-lg p-6 z-20 transform ${
+        className={`fixed top-0 right-0 h-full w-72 bg-white shadow-lg p-4 z-20 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >

@@ -9,7 +9,7 @@ interface MetricCardProps {
 
 const MetricCard: React.FC<MetricCardProps> = ({ title, value, children }) => {
   return (
-    <div className="flex flex-col gap-4  bg-white rounded-lg p-6 shadow-lg h-[150px] w-[220px]">
+    <div className="flex flex-col gap-4  bg-white rounded-lg p-4 shadow-lg h-[150px] w-[220px]">
       <div className="flex justify-between text-custom-gray">
         <p className="text-xs">{title}</p>
         <FaEllipsisVertical className="size-3" />

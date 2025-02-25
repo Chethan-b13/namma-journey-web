@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${raleway.variable} ${roboto.variable}`}
+        className={`${poppins.variable} ${raleway.variable} ${roboto.variable} bg-background`}
       >
         <Providers>{children}</Providers>
       </body>

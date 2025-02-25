@@ -86,19 +86,10 @@ export const UserTableColumns = [
     render: (value: string) => (
       <div className="flex gap-1">
         <Link href={`/admin/users/${value}`}>
-          <button className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800">
-            <FaEye className="text-xl" />
+          <button className="px-3 py-1 text-regular font-body text-blue-600 hover:text-blue-800">
+            View
           </button>
         </Link>
-
-        <Link href={`/admin/users/${value}`}>
-          <button className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800">
-            <FaEdit className="text-xl" />
-          </button>
-        </Link>
-        <button className="px-3 py-1 text-sm text-red-600 hover:text-red-800">
-          <FaTrash className="text-xl" />
-        </button>
       </div>
     ),
   },
