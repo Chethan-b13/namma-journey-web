@@ -17,10 +17,10 @@ const DashboardLayout = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <div className="flex w-screen h-screen bg-[#FAF9FF]">
+    <div className="flex w-screen h-screen p-4 gap-x-4 overflow-x-hidden">
       <SideBar />
       <div className="flex-1 flex flex-col">
-        <div className="flex-1 p-6 overflow-auto">
+        <div className="flex-1">
           {/* TO BE DETELED */}
           {/* <DataTable data={usersData} columns={userColumns} title="User List" /> */}
           {/* TO BE DETELED */}

@@ -90,17 +90,17 @@ const DataTable: React.FC<DataTablePropsType> = ({
     });
 
   return (
-    <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-full">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Data Table</h2>
+        <h2 className="font-subheading text-subheading">Data Table</h2>
 
         <div className="flex items-center gap-2">
           <div className="relative">
             <input
               type="text"
               placeholder="Search..."
-              className="w-64 p-2 pl-8 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="w-96 p-2 pl-8 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -122,47 +122,44 @@ const DataTable: React.FC<DataTablePropsType> = ({
       </div>
 
       {/* Table */}
-      <table className="w-full border-collapse bg-white shadow-md rounded-lg">
-        <thead>
-          <tr className="bg-gray-100">
-            {columns
-              .filter((col) => !col.hidden)
-              .map((col, index) => (
-                <th
-                  key={index}
-                  className="p-3 text-left text-sm font-semibold cursor-pointer"
-                  onClick={() => {
-                    setSortBy(col.accessor);
-                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                  }}
-                >
-                  {col.title} <FaSort className="inline ml-1 text-xs" />
-                </th>
-              ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {filteredData.map((item, index) => (
-            <tr
-              key={index}
-              className={`border-b ${
-                index % 2 === 0 ? "bg-gray-50" : "bg-white"
-              }`}
-            >
+      <div className="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
+        <table className="w-full border-collapse rounded-2xl ">
+          <thead>
+            <tr className="border-b border-gray-200">
               {columns
                 .filter((col) => !col.hidden)
-                .map((col, colIndex) => (
-                  <td key={colIndex} className="p-3 text-sm">
-                    {col.render
-                      ? col.render(item[col.accessor], item)
-                      : item[col.accessor]}
-                  </td>
+                .map((col, index) => (
+                  <th
+                    key={index}
+                    className="p-3 text-left text-regular font-body cursor-pointer"
+                    onClick={() => {
+                      setSortBy(col.accessor);
+                      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                    }}
+                  >
+                    {col.title} <FaSort className="inline ml-1 text-xs" />
+                  </th>
                 ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {filteredData.map((item, index) => (
+              <tr key={index} className={`bg-background`}>
+                {columns
+                  .filter((col) => !col.hidden)
+                  .map((col, colIndex) => (
+                    <td key={colIndex} className="p-3 text-body font-body">
+                      {col.render
+                        ? col.render(item[col.accessor], item)
+                        : item[col.accessor]}
+                    </td>
+                  ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* No Results Message */}
       {filteredData.length === 0 && (
@@ -175,7 +172,7 @@ const DataTable: React.FC<DataTablePropsType> = ({
           <select
             value={limit}
             onChange={(e) => onlimitChange?.(Number(e.target.value))}
-            className="border rounded px-2 py-1 text-sm"
+            className="border rounded-full px-2 py-1 text-body font-body bg-background focus:outline-none focus:ring-1 focus:ring-gray-300"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -201,9 +198,9 @@ const DataTable: React.FC<DataTablePropsType> = ({
             <button
               key={index}
               onClick={() => onPageChange(index + 1)}
-              className={`w-8 h-8 rounded-sm ${
+              className={`w-8 h-8 rounded-full ${
                 currentPage === index + 1
-                  ? "border border-purple-500 text-purple-500 rounded-sm"
+                  ? "border border-gray-300 text rounded-full"
                   : "text-gray-600"
               }`}
             >
