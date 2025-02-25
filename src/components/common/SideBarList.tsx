@@ -12,11 +12,11 @@ const SideBarList: React.FC = () => {
               ${item.active ? "bg-sidebar font-medium" : "hover:bg-sidebar"}`}
           >
             <item.icon
-              className={`w-5 h-5 ${
+              className={`size-4 ${
                 item.active ? "text-black" : "text-gray-400"
               }`}
             />
-            <span className="text-sm font-medium">{item.name}</span>
+            <span className="text-regular font-medium">{item.name}</span>
           </div>
         </Link>
       ))}

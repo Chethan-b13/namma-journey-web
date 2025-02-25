@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../../public/styles/global.css";
+import "./global.css";
 import { poppins, raleway, sora } from "@/libs/fonts";
 import Providers from "./providers";
 

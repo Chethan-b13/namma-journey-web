@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-[12px] text-center w-full h-[48px] transition-all text-regular ${
+      className={`rounded-lg text-center w-full h-[48px] transition-all text-regular ${
         disabled && "bg-gray-400 text-gray-200 cursor-not-allowed"
       } ${className}`}
     >
