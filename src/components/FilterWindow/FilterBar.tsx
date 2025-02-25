@@ -2,9 +2,8 @@
 
 import { FilterBarPropsType } from "@/types/DataTableTypes";
 import { useState } from "react";
-import { FaTimes } from "react-icons/fa";
 import { CgOptions } from "react-icons/cg";
-
+import { IoMdClose } from "react-icons/io";
 const FilterBar: React.FC<FilterBarPropsType> = ({
   title,
   filters,
@@ -28,6 +27,7 @@ const FilterBar: React.FC<FilterBarPropsType> = ({
   const handleReset = () => {
     setSelectedValues({});
     onReset();
+    setIsOpen(false);
   };
 
   return (
@@ -38,7 +38,7 @@ const FilterBar: React.FC<FilterBarPropsType> = ({
         onClick={() => setIsOpen(true)}
       >
         <CgOptions className="size-4" />
-        <span className="text-regular font-body">Filter</span>
+        <span className="text-body font-body">Filter</span>
       </button>
 
       {/* Sidebar Overlay */}
@@ -51,75 +51,81 @@ const FilterBar: React.FC<FilterBarPropsType> = ({
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 right-0 h-full w-72 bg-white shadow-lg p-4 z-20 transform ${
+        className={`fixed top-0 right-0 h-full w-72 bg-white shadow-lg z-20 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >
-        {/* Close button */}
-        <button
-          className="absolute top-4 right-4 text-gray-500"
-          onClick={() => setIsOpen(false)}
-        >
-          <FaTimes className="size-5" />
-        </button>
-
-        {/* Title */}
-        <h2 className="text-lg font-semibold mb-4">{title}</h2>
-
-        {filters.map((filter) => (
-          <div key={filter.id} className="mb-4">
-            <h3 className="text-sm font-semibold mb-2">{filter.label}</h3>
-            {filter.type === "select" && (
-              <div className="flex flex-wrap gap-2">
-                {filter.options?.map((option) => (
-                  <button
-                    key={option}
-                    className={`px-3 py-1 text-xs rounded-md ${
-                      selectedValues[filter.id] === option
-                        ? "bg-purple-500 text-white"
-                        : "bg-gray-200"
-                    }`}
-                    onClick={() => handleValueChange(filter.id, option)}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            )}
-            {filter.type === "date" && (
-              <input
-                type="date"
-                className="w-full border p-2 rounded-md"
-                value={selectedValues[filter.id] || ""}
-                onChange={(e) => handleValueChange(filter.id, e.target.value)}
-              />
-            )}
-            {filter.type === "text" && (
-              <input
-                type="text"
-                placeholder={filter.placeholder}
-                className="w-full border p-2 rounded-md"
-                value={selectedValues[filter.id] || ""}
-                onChange={(e) => handleValueChange(filter.id, e.target.value)}
-              />
-            )}
+        <div className="p-6 h-full flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-subheading font-subheading">{title}</h2>
+            <button className="text-gray-500" onClick={() => setIsOpen(false)}>
+              <IoMdClose className="size-5" />
+            </button>
           </div>
-        ))}
 
-        {/* Add Apply and Reset buttons */}
-        <div className="flex gap-2 mt-5">
-          <button
-            className="flex-1 bg-primary p-2 rounded-lg"
-            onClick={handleApply}
-          >
-            Apply Filters
-          </button>
-          <button
-            className="flex-1 bg-gray-200 p-2 rounded-lg"
-            onClick={handleReset}
-          >
-            Reset
-          </button>
+          {/* Filters */}
+          <div className="flex-1 overflow-y-auto">
+            {filters.map((filter) => (
+              <div key={filter.id} className="mb-6">
+                <h3 className="text-body font-body mb-3">{filter.label}</h3>
+                {filter.type === "select" && (
+                  <div className="flex flex-wrap gap-2">
+                    {filter.options?.map((option) => (
+                      <button
+                        key={option}
+                        className={`px-3 py-2 text-body font-body rounded-lg ${
+                          selectedValues[filter.id] === option
+                            ? "bg-primary "
+                            : "bg-gray-100"
+                        } transition-all duration-300 ease-in-out`}
+                        onClick={() => handleValueChange(filter.id, option)}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {filter.type === "date" && (
+                  <input
+                    type="date"
+                    className="w-full border p-2 rounded-lg text-body font-body"
+                    value={selectedValues[filter.id] || ""}
+                    onChange={(e) =>
+                      handleValueChange(filter.id, e.target.value)
+                    }
+                  />
+                )}
+                {filter.type === "text" && (
+                  <input
+                    type="text"
+                    placeholder={filter.placeholder}
+                    className="w-full border p-2 rounded-lg text-body font-body"
+                    value={selectedValues[filter.id] || ""}
+                    onChange={(e) =>
+                      handleValueChange(filter.id, e.target.value)
+                    }
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Footer Buttons */}
+          <div className="pt-4 border-t flex gap-3">
+            <button
+              className="flex-1 bg-primary p-2 rounded-lg text-body font-body hover:scale-105 transition-all duration-300 ease-in-out"
+              onClick={handleApply}
+            >
+              Apply Filters
+            </button>
+            <button
+              className="flex-1 bg-gray-100 p-2 rounded-lg text-body font-body hover:scale-105 transition-all duration-300 ease-in-out"
+              onClick={handleReset}
+            >
+              Reset
+            </button>
+          </div>
         </div>
       </aside>
     </>

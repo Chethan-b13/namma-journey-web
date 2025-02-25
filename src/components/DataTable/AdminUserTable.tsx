@@ -20,22 +20,6 @@ const AdminUserTable: React.FC = () => {
     setlimit,
   } = useUsers();
 
-  if (loading) {
-    return (
-      <TableSkeleton
-        columns={[
-          { key: "id", width: "w-16" },
-          { key: "user", hasImage: true, hasSubtext: true, width: "w-64" },
-          { key: "phone", width: "w-32" },
-          { key: "role", width: "w-24" },
-          { key: "createdAt", width: "w-32" },
-        ]}
-        rows={10}
-        actions={3}
-      />
-    );
-  }
-
   if (error) {
     return (
       <div className="text-center text-red-500 p-4">

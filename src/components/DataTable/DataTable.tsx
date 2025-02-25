@@ -6,6 +6,14 @@ import { FiSearch } from "react-icons/fi";
 import FilterBar from "../FilterWindow/FilterBar";
 import TableSkeleton from "./TableSkeleton";
 import { DataTablePropsType } from "@/types/DataTableTypes";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { userTableSkeletonColumns } from "./constants/AdminUserConstants";
 
 const DataTable: React.FC<DataTablePropsType> = ({
   columns,
@@ -24,10 +32,6 @@ const DataTable: React.FC<DataTablePropsType> = ({
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>(
     {}
   );
-
-  if (isLoading) {
-    return <TableSkeleton columns={columns} rows={5} actions={3} />;
-  }
 
   // Add null check
   if (!data) {
@@ -92,7 +96,7 @@ const DataTable: React.FC<DataTablePropsType> = ({
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2 px-2">
         <h2 className="font-subheading text-subheading">Data Table</h2>
 
         <div className="flex items-center gap-2">
@@ -121,101 +125,113 @@ const DataTable: React.FC<DataTablePropsType> = ({
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
-        <table className="w-full border-collapse rounded-2xl ">
-          <thead>
-            <tr className="border-b border-gray-200">
-              {columns
-                .filter((col) => !col.hidden)
-                .map((col, index) => (
-                  <th
-                    key={index}
-                    className="p-3 text-left text-regular font-body cursor-pointer"
-                    onClick={() => {
-                      setSortBy(col.accessor);
-                      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                    }}
-                  >
-                    {col.title} <FaSort className="inline ml-1 text-xs" />
-                  </th>
+      {isLoading ? (
+        <TableSkeleton columns={userTableSkeletonColumns} rows={10} />
+      ) : (
+        <>
+          <div className="max-h-[75vh] overflow-y-auto rounded-2xl border border-gray-200 shadow-sm">
+            <table className="w-full border-collapse rounded-2xl">
+              <thead className="sticky top-0 bg-background border-b border-gray-200">
+                <tr>
+                  {columns
+                    .filter((col) => !col.hidden)
+                    .map((col, index) => (
+                      <th
+                        key={index}
+                        className="p-3 text-left text-regular font-body cursor-pointer"
+                        onClick={() => {
+                          setSortBy(col.accessor);
+                          setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                        }}
+                      >
+                        {col.title} <FaSort className="inline ml-1 text-xs" />
+                      </th>
+                    ))}
+                </tr>
+              </thead>
+
+              <tbody>
+                {filteredData.map((item, index) => (
+                  <tr key={index} className={`bg-background`}>
+                    {columns
+                      .filter((col) => !col.hidden)
+                      .map((col, colIndex) => (
+                        <td
+                          key={colIndex}
+                          className="px-3 py-2 text-body font-body"
+                        >
+                          {col.render
+                            ? col.render(item[col.accessor], item)
+                            : item[col.accessor]}
+                        </td>
+                      ))}
+                  </tr>
                 ))}
-            </tr>
-          </thead>
+              </tbody>
+            </table>
+          </div>
 
-          <tbody>
-            {filteredData.map((item, index) => (
-              <tr key={index} className={`bg-background`}>
-                {columns
-                  .filter((col) => !col.hidden)
-                  .map((col, colIndex) => (
-                    <td key={colIndex} className="p-3 text-body font-body">
-                      {col.render
-                        ? col.render(item[col.accessor], item)
-                        : item[col.accessor]}
-                    </td>
-                  ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          {/* No Results Message */}
+          {filteredData.length === 0 && (
+            <p className="text-center text-gray-500 mt-4">No data found.</p>
+          )}
 
-      {/* No Results Message */}
-      {filteredData.length === 0 && (
-        <p className="text-center text-gray-500 mt-4">No data found.</p>
+          <div className="flex items-center justify-between py-4 px-2">
+            <div className="flex items-center gap-2">
+              <span className="text-body text-gray-600">Showing</span>
+              <Select
+                value={limit.toString()}
+                onValueChange={(value) => onlimitChange?.(Number(value))}
+              >
+                <SelectTrigger className="border rounded-full px-2 py-1 text-small font-body bg-background focus:outline-none focus:ring-1 focus:ring-gray-300 w-[50px] h-[25px]">
+                  <SelectValue placeholder="10" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="text-body text-gray-600">
+              Showing {(currentPage - 1) * limit + 1} to{" "}
+              {Math.min(currentPage * limit, totalRecords)} out of{" "}
+              {totalRecords} records
+            </div>
+
+            <div className="flex gap-1 items-center">
+              <button
+                onClick={() => onPageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-2 py-1 text-gray-600"
+              >
+                ‹
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => onPageChange(index + 1)}
+                  className={`w-6 h-6 rounded-full ${
+                    currentPage === index + 1
+                      ? "border border-gray-300 text-body  rounded-full"
+                      : "text-gray-600 text-small"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage * limit >= totalRecords}
+                className="px-2 py-1 text-gray-600"
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        </>
       )}
-
-      <div className="flex items-center justify-between py-4 px-2">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600">Showing</span>
-          <select
-            value={limit}
-            onChange={(e) => onlimitChange?.(Number(e.target.value))}
-            className="border rounded-full px-2 py-1 text-body font-body bg-background focus:outline-none focus:ring-1 focus:ring-gray-300"
-          >
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-          </select>
-        </div>
-
-        <div className="text-sm text-gray-600">
-          Showing {(currentPage - 1) * limit + 1} to{" "}
-          {Math.min(currentPage * limit, totalRecords)} out of {totalRecords}{" "}
-          records
-        </div>
-
-        <div className="flex gap-1">
-          <button
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-2 py-1 text-gray-600"
-          >
-            ‹
-          </button>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => onPageChange(index + 1)}
-              className={`w-8 h-8 rounded-full ${
-                currentPage === index + 1
-                  ? "border border-gray-300 text rounded-full"
-                  : "text-gray-600"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage * limit >= totalRecords}
-            className="px-2 py-1 text-gray-600"
-          >
-            ›
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

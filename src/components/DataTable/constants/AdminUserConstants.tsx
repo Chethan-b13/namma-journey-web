@@ -20,13 +20,13 @@ export const UserTableColumns = [
         <Image
           src={row.profilePic || "/images/default-avatar.png"}
           alt="Profile"
-          className="w-10 h-10 rounded-full object-cover"
-          width={40}
-          height={40}
+          className="size-9 rounded-full object-cover"
+          width={35}
+          height={35}
         />
         <div>
-          <div className="font-medium">{`${row.firstName} ${row.lastName}`}</div>
-          <div className="text-sm text-gray-500">{row.email}</div>
+          <div className="text-body font-body">{`${row.firstName} ${row.lastName}`}</div>
+          <div className="text-small font-body">{row.email}</div>
         </div>
       </div>
     ),
@@ -67,7 +67,9 @@ export const UserTableColumns = [
         role === "" ? "N/A" : role.charAt(0).toUpperCase() + role.slice(1);
 
       return (
-        <span className={`px-2 py-1 rounded-full text-xs ${colorClass}`}>
+        <span
+          className={`px-2 py-1 rounded-full text-body font-body ${colorClass}`}
+        >
           {displayValue}
         </span>
       );
@@ -93,4 +95,12 @@ export const UserTableColumns = [
       </div>
     ),
   },
+];
+
+export const userTableSkeletonColumns = [
+  { key: "id", width: "w-48" },
+  { key: "user", width: "w-64" },
+  { key: "phone", width: "w-32" },
+  { key: "role", width: "w-24" },
+  { key: "createdAt", width: "w-32" },
 ];
