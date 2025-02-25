@@ -230,14 +230,14 @@ export interface SideBarListProps {
 }
 
 // Example Usage
-export const sidebarItems: SidebarItem[] = [
-  { name: "Home", icon: FaHome, active: true },
-  { name: "All trips", icon: FaSuitcase },
-  { name: "Travels", icon: FaPlane },
-  { name: "Rooms", icon: FaBed },
-  { name: "Transport", icon: FaBus },
-  { name: "Attractions", icon: FaLandmark },
-];
+// export const sidebarItems: SidebarItem[] = [
+//   { name: "Home", icon: FaHome, active: true },
+//   { name: "All trips", icon: FaSuitcase },
+//   { name: "Travels", icon: FaPlane },
+//   { name: "Rooms", icon: FaBed },
+//   { name: "Transport", icon: FaBus },
+//   { name: "Attractions", icon: FaLandmark },
+// ];
 
 //data table
 

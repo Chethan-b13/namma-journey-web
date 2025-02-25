@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../../public/styles/global.css";
-import { poppins, raleway, roboto } from "@/libs/fonts";
+import { poppins, raleway, sora } from "@/libs/fonts";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${raleway.variable} ${roboto.variable} bg-background`}
+        className={`${poppins.variable} ${raleway.variable} ${sora.variable} bg-background`}
       >
         <Providers>{children}</Providers>
       </body>

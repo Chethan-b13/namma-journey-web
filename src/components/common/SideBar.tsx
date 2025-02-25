@@ -4,7 +4,6 @@ import React from "react";
 import Logo from "./Logo";
 import Button from "./Button";
 import SideBarList from "./SideBarList";
-import { sidebarItems } from "@/libs/dummyData";
 import { logout } from "@/services/authService";
 import { useRouter } from "next/navigation";
 
@@ -17,7 +16,7 @@ const SideBar = () => {
         <Button className="w-full bg-primary text-regular font-medium">
           Create a Room +
         </Button>
-        <Button
+        {/* <Button
           className="w-full bg-primary text-regular font-medium"
           onClick={() => {
             logout();
@@ -25,8 +24,8 @@ const SideBar = () => {
           }}
         >
           Logout
-        </Button>
-        <SideBarList items={sidebarItems} />
+        </Button> */}
+        <SideBarList />
       </div>
     </div>
   );
