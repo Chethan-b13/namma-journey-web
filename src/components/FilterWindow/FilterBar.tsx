@@ -1,24 +1,10 @@
 "use client";
 
+import { FilterBarPropsType } from "@/types/DataTableTypes";
 import { useState } from "react";
 import { FaFilter, FaTimes } from "react-icons/fa";
 
-export interface FilterOption {
-  id: string;
-  label: string;
-  type: "select" | "date" | "text";
-  options?: string[]; // For select type
-  placeholder?: string; // For text type
-}
-
-interface FilterBarProps {
-  title: string;
-  filters: FilterOption[];
-  onFilterApply: (filters: Record<string, string>) => void;
-  onReset: () => void;
-}
-
-const FilterBar: React.FC<FilterBarProps> = ({
+const FilterBar: React.FC<FilterBarPropsType> = ({
   title,
   filters,
   onFilterApply,

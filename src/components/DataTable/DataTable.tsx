@@ -3,37 +3,11 @@
 import React, { useState } from "react";
 import { FaSort } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import FilterBar, { FilterOption } from "../FilterWindow/FilterBar";
+import FilterBar from "../FilterWindow/FilterBar";
 import TableSkeleton from "./TableSkeleton";
-import { userFilters } from "../FilterWindow/UserFilter";
+import { DataTablePropsType } from "@/types/DataTableTypes";
 
-export interface Column {
-  key: string;
-  title: string;
-  accessor: string;
-  render?: (value: any, row: any) => React.ReactNode;
-  hidden?: boolean;
-  searchable?: boolean;
-}
-
-interface DataTableProps {
-  columns: Column[];
-  data: any[];
-  totalRecords: number;
-  currentPage: number;
-  limit: number;
-  onPageChange: (page: number) => void;
-  onlimitChange?: (limit: number) => void;
-  isLoading?: boolean;
-  filterConfig?: {
-    title: string;
-    filters: FilterOption[];
-  };
-  onFilterApply?: (filters: Record<string, string>) => void;
-  activeFilters?: Record<string, string>;
-}
-
-const DataTable: React.FC<DataTableProps> = ({
+const DataTable: React.FC<DataTablePropsType> = ({
   columns,
   data = [],
   totalRecords = 0,
@@ -43,15 +17,12 @@ const DataTable: React.FC<DataTableProps> = ({
   onlimitChange,
   isLoading = false,
   filterConfig,
-  onFilterApply,
-  activeFilters,
+  activeFilters = {},
+  setActiveFilters,
 }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState(columns[0].key);
   const [sortOrder, setSortOrder] = useState("asc");
-  const [activeFiltersState, setActiveFilters] = useState<
-    Record<string, string>
-  >(activeFilters || {});
 
   if (isLoading) {
     return <TableSkeleton columns={columns} rows={5} actions={3} />;
@@ -78,7 +49,7 @@ const DataTable: React.FC<DataTableProps> = ({
       });
 
       // Applied filters
-      const matchesFilters = Object.entries(activeFiltersState).every(
+      const matchesFilters = Object.entries(activeFilters).every(
         ([key, value]) => {
           if (!value) return true;
 
@@ -139,10 +110,10 @@ const DataTable: React.FC<DataTableProps> = ({
               title={filterConfig.title}
               filters={filterConfig.filters}
               onFilterApply={(filters) => {
-                setActiveFilters(filters);
+                setActiveFilters?.(filters);
               }}
               onReset={() => {
-                setActiveFilters({});
+                setActiveFilters?.({});
               }}
             />
           )}

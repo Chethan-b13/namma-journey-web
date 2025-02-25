@@ -1,4 +1,6 @@
-export const userFilters = [
+import { FilterOptionType } from "@/types/DataTableTypes";
+
+export const userFiltersConfig: FilterOptionType[] = [
   {
     id: "role",
     label: "Role",
