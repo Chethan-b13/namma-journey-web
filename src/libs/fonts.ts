@@ -1,4 +1,4 @@
-import { Poppins, Raleway, Roboto } from "next/font/google";
+import { Poppins, Raleway, Roboto, Sora } from "next/font/google";
 
 // Heading (Poppins): 24px–36px, bold weight (SemiBold or Bold).
 // Subheading (Raleway): 18px–24px, medium or regular weight.
@@ -22,5 +22,11 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
+const sora = Sora({
+  weight: ["300", "400", "500"],
+  subsets: ["latin"],
+  variable: "--font-sora",
+});
+
 // Export the fonts to be used in the application
-export { poppins, raleway, roboto };
+export { poppins, raleway, roboto, sora };

@@ -1,24 +1,26 @@
-import { SideBarListProps } from "@/libs/dummyData";
+import { sidebarItems } from "@/types/SidebarTypes";
+import Link from "next/link";
 import React from "react";
 
-const SideBarList: React.FC<SideBarListProps> = ({ items }) => {
+const SideBarList: React.FC = () => {
   return (
-    <div className="w-60 bg-white shadow-md rounded-lg p-4">
-      <ul className="space-y-2">
-        {items.map((item, index) => (
-          <li
-            key={index}
-            className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer 
-              ${
-                item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-50"
-              }`}
+    <nav className="flex flex-col gap-2 w-full">
+      {sidebarItems.map((item, index) => (
+        <Link href={item.path} key={index}>
+          <div
+            className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors
+              ${item.active ? "bg-sidebar font-medium" : "hover:bg-sidebar"}`}
           >
-            <item.icon className="text-gray-600 w-5 h-5" />
-            <span>{item.name}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+            <item.icon
+              className={`w-5 h-5 ${
+                item.active ? "text-black" : "text-gray-400"
+              }`}
+            />
+            <span className="text-sm font-medium">{item.name}</span>
+          </div>
+        </Link>
+      ))}
+    </nav>
   );
 };
 

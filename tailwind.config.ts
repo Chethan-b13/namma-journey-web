@@ -16,11 +16,12 @@ export default {
         secondary: "#eb222d",
         link: "#1E4AE9",
         button: "346AFF",
+        sidebar: "#FAF9FF",
       },
       fontFamily: {
         heading: ["var(--font-poppins)", "sans-serif"],
         subheading: ["var(--font-raleway)", "sans-serif"],
-        body: ["var(--font-roboto)", "sans-serif"],
+        body: ["var(--font-sora)", "sans-serif"],
       },
       fontSize: {
         heading: ["24px", { lineHeight: "36px", fontWeight: "600" }],
