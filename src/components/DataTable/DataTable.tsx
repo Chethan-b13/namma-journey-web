@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { userTableSkeletonColumns } from "./constants/AdminUserConstants";
+import UserProfileModal from "../UserProfile/UserProfileModal";
 
 const DataTable: React.FC<DataTablePropsType> = ({
   columns,
@@ -32,6 +33,8 @@ const DataTable: React.FC<DataTablePropsType> = ({
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>(
     {}
   );
+  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Add null check
   if (!data) {
@@ -95,6 +98,21 @@ const DataTable: React.FC<DataTablePropsType> = ({
 
   return (
     <div className="w-full">
+      {/* Modal */}
+      <UserProfileModal
+        user={selectedUser}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={(userData) => {
+          // Handle save logic here
+          setIsModalOpen(false);
+        }}
+        onDelete={(userId) => {
+          // Handle delete logic here
+          setIsModalOpen(false);
+        }}
+      />
+
       {/* Header */}
       <div className="flex justify-between items-center mb-2 px-2">
         <h2 className="font-subheading text-subheading">Data Table</h2>
@@ -181,7 +199,9 @@ const DataTable: React.FC<DataTablePropsType> = ({
               <span className="text-body text-gray-600">Showing</span>
               <Select
                 value={limit.toString()}
-                onValueChange={(value) => onlimitChange?.(Number(value))}
+                onValueChange={(value: string) =>
+                  onlimitChange?.(Number(value))
+                }
               >
                 <SelectTrigger className="border rounded-full px-2 py-1 text-small font-body bg-background focus:outline-none focus:ring-1 focus:ring-gray-300 w-[50px] h-[25px]">
                   <SelectValue placeholder="10" />

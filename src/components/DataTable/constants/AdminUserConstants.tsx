@@ -1,6 +1,4 @@
 import { format } from "date-fns";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import Link from "next/link";
 import Image from "next/image";
 
 export const UserTableColumns = [
@@ -85,13 +83,14 @@ export const UserTableColumns = [
     key: "actions",
     title: "Actions",
     accessor: "_id",
-    render: (value: string) => (
+    render: (value: string, row: any) => (
       <div className="flex gap-1">
-        <Link href={`/admin/users/${value}`}>
-          <button className="px-3 py-1 text-regular font-body text-blue-600 hover:text-blue-800">
-            View
-          </button>
-        </Link>
+        <button
+          onClick={() => row.onViewClick?.(row)}
+          className="px-3 py-1 text-regular font-body text-blue-600 hover:text-blue-800 flex items-center gap-1"
+        >
+          View
+        </button>
       </div>
     ),
   },

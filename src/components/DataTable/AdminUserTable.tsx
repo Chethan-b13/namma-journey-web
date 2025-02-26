@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "./DataTable";
 import { useUsers } from "@/hooks/useUsers";
-import TableSkeleton from "./TableSkeleton";
 import { userFiltersConfig } from "../FilterWindow/UserFilterConfig";
 import { UserTableColumns } from "./constants/AdminUserConstants";
 import { ColumnType } from "@/types/DataTableTypes";
+import UserProfileModal from "../UserProfile/UserProfileModal";
 
 const AdminUserTable: React.FC = () => {
   const {
@@ -18,7 +18,27 @@ const AdminUserTable: React.FC = () => {
     limit,
     setCurrentPage,
     setlimit,
+    updateUser,
+    deleteUser,
   } = useUsers();
+
+  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewClick = (user: any) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+
+  const handleSave = async (userData: any) => {
+    await updateUser(userData);
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = async (userId: string) => {
+    await deleteUser(userId);
+    setIsModalOpen(false);
+  };
 
   if (error) {
     return (
@@ -28,21 +48,37 @@ const AdminUserTable: React.FC = () => {
     );
   }
 
+  // Add onViewClick to each user object
+  const enhancedUsers = users?.map((user) => ({
+    ...user,
+    onViewClick: handleViewClick,
+  }));
+
   return (
-    <DataTable
-      columns={UserTableColumns as ColumnType[]}
-      data={users}
-      totalRecords={totalRecords}
-      currentPage={currentPage}
-      limit={limit}
-      onPageChange={setCurrentPage}
-      onlimitChange={setlimit}
-      isLoading={loading}
-      filterConfig={{
-        title: "User Filters",
-        filters: userFiltersConfig,
-      }}
-    />
+    <>
+      <DataTable
+        columns={UserTableColumns as ColumnType[]}
+        data={enhancedUsers}
+        totalRecords={totalRecords}
+        currentPage={currentPage}
+        limit={limit}
+        onPageChange={setCurrentPage}
+        onlimitChange={setlimit}
+        isLoading={loading}
+        filterConfig={{
+          title: "User Filters",
+          filters: userFiltersConfig,
+        }}
+      />
+
+      <UserProfileModal
+        user={selectedUser}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+        onDelete={handleDelete}
+      />
+    </>
   );
 };
 
