@@ -122,11 +122,11 @@ const DataTable: React.FC<DataTablePropsType> = ({
             <input
               type="text"
               placeholder="Search..."
-              className="w-96 p-2 pl-8 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-96 p-2 pl-8 text-body border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-gray-300"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <FiSearch className="absolute left-2 top-3 text-gray-400" />
+            <FiSearch className="absolute size-4 left-2 top-3" />
           </div>
           {filterConfig && (
             <FilterBar
@@ -147,8 +147,8 @@ const DataTable: React.FC<DataTablePropsType> = ({
         <TableSkeleton columns={userTableSkeletonColumns} rows={10} />
       ) : (
         <>
-          <div className="max-h-[75vh] overflow-y-auto rounded-2xl border border-gray-200 shadow-sm">
-            <table className="w-full border-collapse rounded-2xl">
+          <div className="max-h-[75vh] overflow-y-auto rounded-lg border border-gray-200 shadow-sm">
+            <table className="w-full border-collapse rounded-lg">
               <thead className="sticky top-0 bg-background border-b border-gray-200">
                 <tr>
                   {columns

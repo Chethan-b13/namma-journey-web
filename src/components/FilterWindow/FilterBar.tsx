@@ -67,14 +67,14 @@ const FilterBar: React.FC<FilterBarPropsType> = ({
           {/* Filters */}
           <div className="flex-1 overflow-y-auto">
             {filters.map((filter) => (
-              <div key={filter.id} className="mb-6">
-                <h3 className="text-body font-body mb-3">{filter.label}</h3>
+              <div key={filter.id} className="mb-4">
+                <h3 className="text-body font-body mb-1">{filter.label}</h3>
                 {filter.type === "select" && (
                   <div className="flex flex-wrap gap-2">
                     {filter.options?.map((option) => (
                       <button
                         key={option}
-                        className={`px-3 py-2 text-body font-body rounded-lg ${
+                        className={`px-2 py-0.5 text-body font-body rounded-lg ${
                           selectedValues[filter.id] === option
                             ? "bg-primary "
                             : "bg-gray-100"

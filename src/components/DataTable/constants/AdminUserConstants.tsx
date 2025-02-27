@@ -79,7 +79,7 @@ export const UserTableColumns = [
             return (
               <span
                 key={index}
-                className={`px-2 py-0.5 rounded-full text-small font-body ${colorClass}`}
+                className={`px-2 py-0.5 rounded-lg text-small font-body ${colorClass}`}
               >
                 {displayValue}
               </span>

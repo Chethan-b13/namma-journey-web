@@ -15,8 +15,8 @@ const TableSkeleton: React.FC<TableSkeletonProps> = ({
   return (
     <div className="w-full">
       {/* Table */}
-      <div className="max-h-[75vh] overflow-y-auto rounded-2xl border border-gray-200">
-        <table className="w-full border-collapse rounded-2xl">
+      <div className="max-h-[75vh] overflow-y-auto rounded-lg border border-gray-200">
+        <table className="w-full border-collapse rounded-lg">
           <thead className="sticky top-0 bg-background border-b border-gray-200 z-10">
             <tr>
               {columns.map((col, i) => (
