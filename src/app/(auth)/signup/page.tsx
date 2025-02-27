@@ -5,10 +5,8 @@ import InputField from "@/components/common/InputField";
 import GoogleFormSection from "@/components/Auth/GoogleFormSection";
 import { useAppDispatch } from "@/store";
 import { useRouter } from "next/navigation";
-import { handleGoogleLogin } from "@/services/authService";
-import { auth } from "@/config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { registerUser } from "@/app/api/authApis";
+import { handleEmailSignUp, handleGoogleAuth } from "@/services/authService";
+import { UserRegistrationData } from "@/types/UserTypes";
 
 const SignupPage = () => {
   const dispatch = useAppDispatch();
@@ -34,44 +32,37 @@ const SignupPage = () => {
       return;
     }
 
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
+    try {
+      const userData: Partial<UserRegistrationData> = {
+        firstName,
+        lastName,
+        email,
+        phone,
+        role: ["traveler"], // or whatever default role you want
+      };
 
-    if (user) {
-      const firebaseUID = user.uid;
-      const idToken = await user.getIdToken();
+      await handleEmailSignUp(dispatch, email, password, userData);
+      router.push("/");
+    } catch (error) {
+      setError("Signup failed. Try again.");
+      console.error("Signup error:", error);
+    }
+  };
 
-      localStorage.setItem("authToken", idToken);
-
-      try {
-        // Call backend API to register user
-        await registerUser(
-          {
-            firstName,
-            lastName,
-            email,
-            firebaseUID,
-            phone,
-            role: ["admin"],
-          },
-          dispatch
-        );
-
-        router.push("/"); // Redirect on successful signup
-      } catch (error) {
-        setError("Signup failed. Try again.");
-        console.error("Signup error:", error);
-      }
+  const handleGoogleSignup = async () => {
+    try {
+      await handleGoogleAuth(dispatch, true);
+      router.push("/");
+    } catch (error) {
+      console.error("Google signup error:", error);
+      setError("Google signup failed. Try again.");
     }
   };
 
   return (
     <div>
       <div className="space-y-4">
+        {error && <p className="text-red-500">{error}</p>}
         <InputField
           label="First Name"
           placeholder="John"
@@ -112,7 +103,7 @@ const SignupPage = () => {
         />
         <GoogleFormSection
           handleSignup={handleSignup}
-          handleGoogleLogin={() => handleGoogleLogin(dispatch, router)}
+          handleGoogleLogin={handleGoogleSignup}
           buttonText="Sign up"
           googleButtonText="Sign up with Google"
           isLoginPage={false}

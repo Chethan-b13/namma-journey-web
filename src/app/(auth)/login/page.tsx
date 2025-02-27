@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import InputField from "@/components/common/InputField";
 import GoogleFormSection from "@/components/Auth/GoogleFormSection";
-import { emailLogin, handleGoogleLogin } from "@/services/authService";
-import { setUser } from "@/store/slices/authSlice";
+import { handleEmailSignIn, handleGoogleAuth } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 
@@ -12,27 +11,24 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const handleEmailLogin = async () => {
+  const handleEmailLogin = async (email: string, password: string) => {
     try {
-      const user = await emailLogin(email, password);
-      const token = await user.getIdToken();
-
-      localStorage.setItem("authToken", token);
-      dispatch(
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          token,
-        })
-      );
+      await handleEmailSignIn(dispatch, email, password);
       router.push("/");
     } catch (error) {
-      console.error("Login failed:", error);
+      // Handle error (show toast, etc.)
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await handleGoogleAuth(dispatch, false);
+      router.push("/");
+    } catch (error) {
+      // Handle error
     }
   };
 
@@ -59,8 +55,8 @@ const LoginPage = () => {
           </a>
         </div>
         <GoogleFormSection
-          handleEmailLogin={handleEmailLogin}
-          handleGoogleLogin={() => handleGoogleLogin(dispatch, router)}
+          handleEmailLogin={() => handleEmailLogin(email, password)}
+          handleGoogleLogin={handleGoogleLogin}
           buttonText="Login"
           googleButtonText="Sign in with Google"
           isLoginPage={true}
