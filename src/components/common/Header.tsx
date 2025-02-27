@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import Logo from "./Logo";
 import { FiSearch, FiBell } from "react-icons/fi";
-import { FaChevronDown } from "react-icons/fa";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { logout } from "@/services/authService";
+import { RootState, useAppDispatch } from "@/store";
 import { useRouter } from "next/navigation";
 import ClickAwayListener from "./ClickAwayListener";
 import {
@@ -17,12 +14,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { handleLogout } from "@/services/authService";
 
 const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const user = useSelector((state: RootState) => state.auth.user);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   return (
     <div className="w-full p-2 flex items-center justify-between border mb-4 rounded-lg">
@@ -71,9 +70,8 @@ const Header = () => {
             >
               <div className="text-left">
                 <p className="text-regular font-body text-gray-500">
-                  Welcome, Chethan b
+                  Welcome, {user?.firstName} {user?.lastName}
                 </p>
-                <p className="text-sm text-gray-500">{user?.role?.[0]}</p>
               </div>
               <div className="w-10 h-10 rounded-full overflow-hidden">
                 <Image
@@ -104,7 +102,7 @@ const Header = () => {
                 <hr className="my-2" />
                 <button
                   onClick={() => {
-                    logout();
+                    handleLogout(dispatch);
                     router.push("/login");
                   }}
                   className="block w-full text-left px-4 py-2 text-regular text-red-600 hover:bg-gray-50"

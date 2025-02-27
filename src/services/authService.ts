@@ -7,11 +7,30 @@ import {
   sendEmailVerification,
   signInWithPhoneNumber,
   RecaptchaVerifier,
-  User,
 } from "firebase/auth";
 import { auth } from "../config/firebase";
-import { registerUser } from "@/app/api/authApis";
 import { Dispatch } from "redux";
+import { setUser, logout } from "@/store/slices/authSlice";
+import {
+  UserRegistrationData,
+  mapFirebaseUserToBackendUser,
+  User,
+} from "@/types/UserTypes";
+import api from "@/config/axios";
+
+// Get user profile from backend
+export const getUserProfile = async (): Promise<User> => {
+  const response = await api.get("/users/me");
+  return response.data;
+};
+
+// Register user in backend
+export const registerUserInBackend = async (
+  userData: UserRegistrationData
+): Promise<User> => {
+  const response = await api.post("/auth/register", userData);
+  return response.data.user;
+};
 
 export const googleLogin = async () => {
   const provider = new GoogleAuthProvider();
@@ -50,36 +69,79 @@ export const phoneLogin = async (
   return confirmationResult;
 };
 
-export const logout = async () => {
-  await signOut(auth);
-  localStorage.removeItem("authToken");
-};
-
-export const handleGoogleLogin = async (
-  dispatch: Dispatch<any>,
-  router: any
+export const handleGoogleAuth = async (
+  dispatch: Dispatch,
+  isSignUp: boolean = false
 ): Promise<void> => {
   try {
-    const user = await googleLogin();
-    const token = await user.getIdToken();
-    localStorage.setItem("authToken", token);
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
 
-    const firstName = user.displayName?.split(" ")[0] || "";
-    const lastName = user.displayName?.split(" ")[1] || "";
+    if (isSignUp) {
+      // Register in backend for new users using the mapper function
+      await registerUserInBackend(mapFirebaseUserToBackendUser(result.user));
+    }
 
-    await registerUser(
-      {
-        firstName: firstName,
-        lastName: lastName,
-        email: user.email || "",
-        firebaseUID: user.uid || "",
-        phone: "+919876543210",
-        role: ["admin"],
-      },
-      dispatch
-    );
-    router.push("/");
+    const userProfile = await getUserProfile();
+    dispatch(setUser(userProfile));
   } catch (error) {
-    console.error("Google Login Failed:", error);
+    console.error("Google auth failed:", error);
+    throw error;
+  }
+};
+
+export const handleEmailSignUp = async (
+  dispatch: Dispatch,
+  email: string,
+  password: string,
+  userData: Partial<UserRegistrationData>
+): Promise<void> => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    // Use the mapper function for consistent user data structure
+    await registerUserInBackend(
+      mapFirebaseUserToBackendUser(userCredential.user, userData)
+    );
+
+    const userProfile = await getUserProfile();
+    dispatch(setUser(userProfile));
+  } catch (error) {
+    console.error("Email signup failed:", error);
+    throw error;
+  }
+};
+
+export const handleEmailSignIn = async (
+  dispatch: Dispatch,
+  email: string,
+  password: string
+): Promise<void> => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const userProfile = await getUserProfile();
+    dispatch(setUser(userProfile));
+  } catch (error) {
+    console.error("Email signin failed:", error);
+    throw error;
+  }
+};
+
+export const handleLogout = async (dispatch: Dispatch): Promise<void> => {
+  try {
+    await signOut(auth);
+    dispatch(logout());
+  } catch (error) {
+    console.error("Logout failed:", error);
+    throw error;
   }
 };
