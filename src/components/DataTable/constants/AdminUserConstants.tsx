@@ -50,7 +50,7 @@ export const UserTableColumns = [
     key: "role",
     title: "Role",
     accessor: "role",
-    render: (value: any) => {
+    render: (value: string[]) => {
       const roleColors: Record<string, string> = {
         admin: "bg-purple-100 text-purple-800",
         agency: "bg-blue-100 text-blue-800",
@@ -59,17 +59,33 @@ export const UserTableColumns = [
         default: "bg-gray-100 text-gray-800",
       };
 
-      const role = String(value || "").toLowerCase();
-      const colorClass = roleColors[role] || roleColors.default;
-      const displayValue =
-        role === "" ? "N/A" : role.charAt(0).toUpperCase() + role.slice(1);
+      if (!value || !Array.isArray(value)) {
+        return (
+          <span
+            className={`px-2 py-1 rounded-full text-small font-body bg-gray-100 text-gray-800`}
+          >
+            N/A
+          </span>
+        );
+      }
 
       return (
-        <span
-          className={`px-2 py-1 rounded-full text-body font-body ${colorClass}`}
-        >
-          {displayValue}
-        </span>
+        <div className="flex flex-wrap gap-1">
+          {value.map((role, index) => {
+            const roleLower = role.toLowerCase();
+            const colorClass = roleColors[roleLower] || roleColors.default;
+            const displayValue = role.charAt(0).toUpperCase() + role.slice(1);
+
+            return (
+              <span
+                key={index}
+                className={`px-2 py-0.5 rounded-full text-small font-body ${colorClass}`}
+              >
+                {displayValue}
+              </span>
+            );
+          })}
+        </div>
       );
     },
   },
