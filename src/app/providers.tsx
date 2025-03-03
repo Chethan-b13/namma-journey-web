@@ -15,10 +15,12 @@ function AuthSetup() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log("user is changing", user);
       if (user) {
         try {
           // Fetch user profile from backend
+          console.log("user is changing 2", user.email);
           const userProfile = await getUserProfile();
           dispatch(setUser(userProfile));
           router.push("/");
@@ -32,6 +34,8 @@ function AuthSetup() {
         router.push("/login");
       }
     });
+
+    return () => unsubscribe();
   }, []);
 
   return null;

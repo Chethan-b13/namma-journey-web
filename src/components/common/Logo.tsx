@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import logo from "../../../public/images/logo-without-text.svg";
+import logo from "../../../public/images/logo_web.png";
 
 interface LogoProps {
   logoHeight?: number;
@@ -14,16 +14,16 @@ const Logo: React.FC<LogoProps> = ({
   logoTextSize = "30px",
 }) => {
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center">
       <Image
         src={logo}
         alt="namma journey logo"
         width={`${logoWidth}`}
         height={`${logoHeight}`}
       />
-      <p className={`text-[${logoTextSize}] font-heading font-semibold`}>
+      {/* <p className={`text-[${logoTextSize}] font-heading font-semibold`}>
         namma journey
-      </p>
+      </p> */}
     </div>
   );
 };

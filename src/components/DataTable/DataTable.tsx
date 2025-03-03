@@ -5,7 +5,7 @@ import { FaSort } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import FilterBar from "../FilterWindow/FilterBar";
 import TableSkeleton from "./TableSkeleton";
-import { DataTablePropsType } from "@/types/DataTableTypes";
+import { DataTablePropsType as BaseDataTableProps } from "@/types/DataTableTypes";
 import {
   Select,
   SelectContent,
@@ -16,7 +16,11 @@ import {
 import { userTableSkeletonColumns } from "./constants/AdminUserConstants";
 import UserProfileModal from "../UserProfile/UserProfileModal";
 
-const DataTable: React.FC<DataTablePropsType> = ({
+interface DataTableProps extends BaseDataTableProps {
+  actionButton?: React.ReactNode;
+}
+
+const DataTable: React.FC<DataTableProps> = ({
   columns,
   data = [],
   totalRecords = 0,
@@ -26,6 +30,7 @@ const DataTable: React.FC<DataTablePropsType> = ({
   onlimitChange,
   isLoading = false,
   filterConfig,
+  actionButton,
 }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState(columns[0].key);
@@ -104,11 +109,9 @@ const DataTable: React.FC<DataTablePropsType> = ({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={(userData) => {
-          // Handle save logic here
           setIsModalOpen(false);
         }}
         onDelete={(userId) => {
-          // Handle delete logic here
           setIsModalOpen(false);
         }}
       />
@@ -117,29 +120,32 @@ const DataTable: React.FC<DataTablePropsType> = ({
       <div className="flex justify-between items-center mb-2 px-2">
         <h2 className="font-subheading text-subheading">Data Table</h2>
 
-        <div className="flex items-center gap-2">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-96 p-2 pl-8 text-body border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-gray-300"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <FiSearch className="absolute size-4 left-2 top-3" />
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-96 text-body font-body p-2 pl-8 border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <FiSearch className="absolute left-2 top-3 text-gray-400" />
+            </div>
+            {actionButton}
+            {filterConfig && (
+              <FilterBar
+                title={filterConfig.title}
+                filters={filterConfig.filters}
+                onFilterApply={(filters) => {
+                  setActiveFilters?.(filters);
+                }}
+                onReset={() => {
+                  setActiveFilters?.({});
+                }}
+              />
+            )}
           </div>
-          {filterConfig && (
-            <FilterBar
-              title={filterConfig.title}
-              filters={filterConfig.filters}
-              onFilterApply={(filters) => {
-                setActiveFilters?.(filters);
-              }}
-              onReset={() => {
-                setActiveFilters?.({});
-              }}
-            />
-          )}
         </div>
       </div>
 
