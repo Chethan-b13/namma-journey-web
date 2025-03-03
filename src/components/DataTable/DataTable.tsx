@@ -5,10 +5,7 @@ import { FaSort } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import FilterBar from "../FilterWindow/FilterBar";
 import TableSkeleton from "./TableSkeleton";
-import {
-  DataTablePropsType as BaseDataTableProps,
-  ColumnType,
-} from "@/types/DataTableTypes";
+import { DataTablePropsType as BaseDataTableProps } from "@/types/DataTableTypes";
 import {
   Select,
   SelectContent,
@@ -18,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import { userTableSkeletonColumns } from "./constants/AdminUserConstants";
 import UserProfileModal from "../UserProfile/UserProfileModal";
-import { FilterOptionType } from "@/types/DataTableTypes";
 
 interface DataTableProps extends BaseDataTableProps {
   actionButton?: React.ReactNode;
@@ -130,7 +126,7 @@ const DataTable: React.FC<DataTableProps> = ({
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-96 p-2 pl-8 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-96 text-body font-body p-2 pl-8 border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />

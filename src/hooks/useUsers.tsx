@@ -29,8 +29,9 @@ export const useUsers = () => {
         lastName: userData.lastName,
         email: userData.email,
         phone: userData.phone,
-        profilePic: userData.profilePic,
+        profilePic: "http://picsum.photos/id/18/600/600",
         role: userData.role,
+        password: userData.password,
       });
 
       // Invalidate and refetch users query after successful creation

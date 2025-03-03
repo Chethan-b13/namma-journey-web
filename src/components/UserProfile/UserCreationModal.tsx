@@ -48,21 +48,19 @@ const UserCreationModal: React.FC<UserCreationModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Create a new user object with all required fields
-    const newUser = {
-      ...formData,
-      createdAt: new Date().toISOString(), // Add creation date
-    };
-    onSave(newUser);
-    // Reset form after submission
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      role: ["traveler"],
-      profilePic: "",
-      password: "",
-    });
+    const result = onSave(formData);
+    if (result !== undefined && result !== false) {
+      // Reset form after submission
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        role: ["traveler"],
+        profilePic: "",
+        password: "",
+      });
+    }
   };
 
   if (!isOpen) return null;
@@ -251,7 +249,7 @@ const UserCreationModal: React.FC<UserCreationModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 text-body font-medium text-white bg-black rounded-lg hover:bg-gray-800"
+                className="px-4 py-2 text-body font-medium text-white bg-black rounded-lg hover:text-primary transition-all duration-300"
               >
                 Add User
               </button>

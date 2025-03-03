@@ -48,9 +48,11 @@ const AdminUserTable: React.FC = () => {
     try {
       await createUser(userData);
       setIsCreateModalOpen(false);
+      return true;
     } catch (error) {
       console.error("Error creating user:", error);
       // You might want to show an error message to the user here
+      return false;
     }
   };
 
@@ -71,9 +73,9 @@ const AdminUserTable: React.FC = () => {
   const addUserButton = (
     <button
       onClick={() => setIsCreateModalOpen(true)}
-      className="px-4 py-2 bg-primary text-black text-body rounded-lg hover:bg-primary/90 flex items-center gap-1"
+      className="border border-gray-300 px-4 py-2 text-body rounded-lg flex items-center gap-2 hover:bg-primary/90 hover:border-primary transition-all duration-300"
     >
-      <FiUserPlus className="size-4" />
+      <FiUserPlus className="size-3" />
       <span>Add User</span>
     </button>
   );

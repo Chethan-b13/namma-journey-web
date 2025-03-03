@@ -34,7 +34,7 @@ const FilterBar: React.FC<FilterBarPropsType> = ({
     <>
       {/* Button to open sidebar */}
       <button
-        className="border p-2 rounded-lg flex items-center justify-center gap-2"
+        className="border border-gray-300 p-2 rounded-lg flex items-center justify-center gap-2 hover:bg-primary/90 hover:border-primary transition-all duration-300"
         onClick={() => setIsOpen(true)}
       >
         <CgOptions className="size-4" />
