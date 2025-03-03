@@ -7,6 +7,8 @@ import { userFiltersConfig } from "../FilterWindow/UserFilterConfig";
 import { UserTableColumns } from "./constants/AdminUserConstants";
 import { ColumnType } from "@/types/DataTableTypes";
 import UserProfileModal from "../UserProfile/UserProfileModal";
+import UserCreationModal from "../UserProfile/UserCreationModal";
+import { FiUserPlus } from "react-icons/fi";
 
 const AdminUserTable: React.FC = () => {
   const {
@@ -20,10 +22,12 @@ const AdminUserTable: React.FC = () => {
     setlimit,
     updateUser,
     deleteUser,
+    createUser,
   } = useUsers();
 
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const handleViewClick = (user: any) => {
     setSelectedUser(user);
@@ -40,6 +44,16 @@ const AdminUserTable: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const handleCreateUser = async (userData: any) => {
+    try {
+      await createUser(userData);
+      setIsCreateModalOpen(false);
+    } catch (error) {
+      console.error("Error creating user:", error);
+      // You might want to show an error message to the user here
+    }
+  };
+
   if (error) {
     return (
       <div className="text-center text-red-500 p-4">
@@ -54,8 +68,18 @@ const AdminUserTable: React.FC = () => {
     onViewClick: handleViewClick,
   }));
 
+  const addUserButton = (
+    <button
+      onClick={() => setIsCreateModalOpen(true)}
+      className="px-4 py-2 bg-primary text-black text-body rounded-lg hover:bg-primary/90 flex items-center gap-1"
+    >
+      <FiUserPlus className="size-4" />
+      <span>Add User</span>
+    </button>
+  );
+
   return (
-    <>
+    <div className="space-y-4">
       <DataTable
         columns={UserTableColumns as ColumnType[]}
         data={enhancedUsers}
@@ -69,6 +93,7 @@ const AdminUserTable: React.FC = () => {
           title: "User Filters",
           filters: userFiltersConfig,
         }}
+        actionButton={addUserButton}
       />
 
       <UserProfileModal
@@ -78,7 +103,13 @@ const AdminUserTable: React.FC = () => {
         onSave={handleSave}
         onDelete={handleDelete}
       />
-    </>
+
+      <UserCreationModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSave={handleCreateUser}
+      />
+    </div>
   );
 };
 
