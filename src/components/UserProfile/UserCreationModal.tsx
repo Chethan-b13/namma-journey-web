@@ -2,7 +2,10 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { FiLock, FiMail, FiPhone } from "react-icons/fi";
+import { FiLock, FiMail, FiPhone, FiX } from "react-icons/fi";
+import PasswordInput from "@/components/common/PasswordInput";
+import EmailInput from "@/components/common/EmailInput";
+
 interface UserCreationModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -132,38 +135,25 @@ const UserCreationModal: React.FC<UserCreationModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Email address
-                </label>
-                <div className="flex items-center gap-2 border rounded-md p-2">
-                  <FiMail className="text-gray-500" />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="email@example.com"
-                    className="w-full text-body focus:outline-none "
-                  />
-                </div>
+                <EmailInput
+                  label="Email address"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="email@example.com"
+                  required
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Password
-                </label>
-                <div className="flex items-center gap-2 border rounded-md p-2">
-                  <FiLock className="text-gray-500" />
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    placeholder="Enter password"
-                    className="w-full text-body focus:outline-none "
-                    required
-                  />
-                </div>
+                <PasswordInput
+                  label="Password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Enter password"
+                  required
+                />
               </div>
 
               <div>

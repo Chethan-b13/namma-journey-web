@@ -6,6 +6,8 @@ import GoogleFormSection from "@/components/Auth/GoogleFormSection";
 import { handleEmailSignIn, handleGoogleAuth } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
+import PasswordInput from "@/components/common/PasswordInput";
+import EmailInput from "@/components/common/EmailInput";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -35,20 +37,21 @@ const LoginPage = () => {
   return (
     <div>
       <div className="space-y-4">
-        <InputField
+        <EmailInput
           label="Email"
-          type="email"
+          name="email"
           placeholder="example@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <InputField
+        <PasswordInput
           label="Password"
-          type="password"
+          name="password"
           placeholder="********"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <div className="flex justify-end">
           <a href="#" className="text-link text-[14px]">
             Forgot password?
