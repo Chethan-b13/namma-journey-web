@@ -7,7 +7,8 @@ import { useAppDispatch } from "@/store";
 import { useRouter } from "next/navigation";
 import { handleEmailSignUp, handleGoogleAuth } from "@/services/authService";
 import { UserRegistrationData } from "@/types/UserTypes";
-
+import PasswordInput from "@/components/common/PasswordInput";
+import EmailInput from "@/components/common/EmailInput";
 const SignupPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -75,8 +76,9 @@ const SignupPage = () => {
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
-        <InputField
+        <EmailInput
           label="Email"
+          name="email"
           placeholder="example@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -87,17 +89,17 @@ const SignupPage = () => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
-        <InputField
+        <PasswordInput
           label="Password"
+          name="password"
           placeholder="********"
-          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <InputField
+        <PasswordInput
           label="Confirm Password"
+          name="confirmPassword"
           placeholder="********"
-          type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
