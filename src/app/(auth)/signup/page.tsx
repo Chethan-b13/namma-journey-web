@@ -29,7 +29,7 @@ const SignupPage = () => {
     }
 
     if (!email || !password || !confirmPassword) {
-      setError("All fields are required!");
+      setError("Please fill all required fields");
       return false;
     }
 
@@ -70,7 +70,7 @@ const SignupPage = () => {
   return (
     <div>
       <div className="space-y-4">
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 text-regular">{error}</p>}
         <InputField
           label="First Name"
           placeholder="John"
