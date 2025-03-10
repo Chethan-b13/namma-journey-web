@@ -16,22 +16,25 @@ function AuthSetup() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("user is changing", user);
       if (user) {
         try {
-          // Fetch user profile from backend
-          console.log("user is changing 2", user.email);
           const userProfile = await getUserProfile();
           dispatch(setUser(userProfile));
           router.push("/");
         } catch (error) {
-          console.error("Token refresh failed:", error);
           dispatch(logout());
           router.push("/login");
         }
       } else {
         dispatch(logout());
-        router.push("/login");
+
+        // Get the current path
+        const pathname = window.location.pathname;
+
+        // Only redirect to login if not on signup page
+        if (pathname !== "/signup") {
+          router.push("/login");
+        }
       }
     });
 

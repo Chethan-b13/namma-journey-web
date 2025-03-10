@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       "lh3.googleusercontent.com",
       "firebasestorage.googleapis.com",
       "picsum.photos",
+      "randomuser.me",
     ],
   },
 };

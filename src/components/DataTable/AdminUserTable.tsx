@@ -9,8 +9,11 @@ import { ColumnType } from "@/types/DataTableTypes";
 import UserProfileModal from "../UserProfile/UserProfileModal";
 import UserCreationModal from "../UserProfile/UserCreationModal";
 import { FiUserPlus } from "react-icons/fi";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const AdminUserTable: React.FC = () => {
+  const queryClient = useQueryClient();
   const {
     users,
     loading,
@@ -35,34 +38,54 @@ const AdminUserTable: React.FC = () => {
   };
 
   const handleSave = async (userData: any) => {
-    await updateUser(userData);
-    setIsModalOpen(false);
+    try {
+      const success = await updateUser(userData);
+      if (success) {
+        toast.success("User profile has been updated successfully!");
+        setIsModalOpen(false);
+      }
+      return success;
+    } catch (error) {
+      toast.error("Error updating user.");
+      console.error("Error updating user:", error);
+      return false;
+    }
   };
 
   const handleDelete = async (userId: string) => {
     await deleteUser(userId);
+    toast.success("User deleted successfully!");
     setIsModalOpen(false);
   };
 
   const handleCreateUser = async (userData: any) => {
     try {
-      await createUser(userData);
-      setIsCreateModalOpen(false);
+      // Call backend API to create a new user
+      const newUser = await createUser(userData);
+
+      if (newUser) {
+        // Update React Query cache instead of refetching all users
+        queryClient.setQueryData(["users"], (oldData: any) => {
+          if (!oldData || !oldData.users)
+            return { users: [newUser], totalUsers: 1 };
+
+          return {
+            ...oldData,
+            users: [newUser, ...oldData.users], // Add new user at the top
+            totalUsers: (oldData.totalUsers ?? 0) + 1, // Update total count
+          };
+        });
+
+        toast.success("User created successfully!");
+        setIsCreateModalOpen(false);
+      }
       return true;
     } catch (error) {
+      toast.error("Error creating user.");
       console.error("Error creating user:", error);
-      // You might want to show an error message to the user here
       return false;
     }
   };
-
-  if (error) {
-    return (
-      <div className="text-center text-red-500 p-4">
-        Error loading users: {error.message}
-      </div>
-    );
-  }
 
   // Add onViewClick to each user object
   const enhancedUsers = users?.map((user) => ({

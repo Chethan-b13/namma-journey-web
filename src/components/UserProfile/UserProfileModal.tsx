@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { FiMail, FiPhone, FiTrash, FiTrash2 } from "react-icons/fi";
+import { FiPhone, FiTrash2 } from "react-icons/fi";
+import EmailInput from "../common/EmailInput";
 
 const AVAILABLE_ROLES = [
   "admin",
@@ -114,18 +115,15 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
           <div>
             <label className="block text-body mb-1">Email address</label>
-            <div className="flex items-center border rounded p-2">
-              <FiMail className="text-gray-500" />
-              <input
-                type="email"
-                value={userData.email}
-                onChange={(e) =>
-                  setUserData({ ...userData, email: e.target.value })
-                }
-                className="w-full px-2 focus:outline-none text-body"
-                placeholder="amelie@untitledui.com"
-              />
-            </div>
+            <EmailInput
+              name="email"
+              value={userData.email}
+              onChange={(e) =>
+                setUserData({ ...userData, email: e.target.value })
+              }
+              placeholder="email@example.com"
+              required
+            />
           </div>
 
           <div>

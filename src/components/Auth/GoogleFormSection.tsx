@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@/components/common/Button";
 import HorizontalLine from "@/components/common/HorizontalLine";
 import { FcGoogle } from "react-icons/fc";
+import SuccessModal from "@/components/UserProfile/SuccessModal";
+import { useRouter } from "next/navigation";
 
 interface GoogleFormSectionProps {
   children?: React.ReactNode;
@@ -9,7 +11,7 @@ interface GoogleFormSectionProps {
   googleButtonText: string;
   isLoginPage: boolean;
   handleEmailLogin?: () => void;
-  handleSignup?: () => void;
+  handleSignup?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<boolean>;
   handleGoogleLogin: () => void;
 }
 
@@ -22,13 +24,34 @@ const GoogleFormSection: React.FC<GoogleFormSectionProps> = ({
   handleSignup,
   handleGoogleLogin,
 }) => {
+  const router = useRouter();
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSignupClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (handleSignup) {
+      try {
+        const success = await handleSignup(e);
+        if (success) {
+          setIsSuccess(true);
+        }
+      } catch (error) {
+        console.error("Signup error:", error);
+      }
+    }
+  };
+
+  const handleSuccessClose = () => {
+    setIsSuccess(false);
+    router.push("/");
+  };
+
   return (
     <div className="space-y-4">
       {children}
 
       <Button
         className="w-full bg-black text-white"
-        onClick={isLoginPage ? handleEmailLogin : handleSignup}
+        onClick={isLoginPage ? handleEmailLogin : handleSignupClick}
       >
         {buttonText}
       </Button>
@@ -62,6 +85,14 @@ const GoogleFormSection: React.FC<GoogleFormSectionProps> = ({
             Login
           </a>
         </div>
+      )}
+
+      {isSuccess && (
+        <SuccessModal
+          message="Your account has been created successfully! Please log in to continue."
+          buttonText="Get started"
+          onClose={handleSuccessClose}
+        />
       )}
     </div>
   );

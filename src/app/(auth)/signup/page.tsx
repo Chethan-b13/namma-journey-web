@@ -9,6 +9,7 @@ import { handleEmailSignUp, handleGoogleAuth } from "@/services/authService";
 import { UserRegistrationData } from "@/types/UserTypes";
 import PasswordInput from "@/components/common/PasswordInput";
 import EmailInput from "@/components/common/EmailInput";
+
 const SignupPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -22,15 +23,19 @@ const SignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSignup = async () => {
+  const handleSignup = async (e?: React.MouseEvent<HTMLButtonElement>) => {
+    if (e) {
+      e.preventDefault();
+    }
+
     if (!email || !password || !confirmPassword) {
-      setError("All fields are required!");
-      return;
+      setError("Please fill all required fields");
+      return false;
     }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
-      return;
+      return false;
     }
 
     try {
@@ -39,14 +44,16 @@ const SignupPage = () => {
         lastName,
         email,
         phone,
-        role: ["traveler"], // or whatever default role you want
+        role: ["admin"],
       };
 
       await handleEmailSignUp(dispatch, email, password, userData);
-      router.push("/");
+      setError(""); // Clear any existing errors
+      return true; // Return success status
     } catch (error) {
       setError("Signup failed. Try again.");
       console.error("Signup error:", error);
+      return false;
     }
   };
 
@@ -63,7 +70,7 @@ const SignupPage = () => {
   return (
     <div>
       <div className="space-y-4">
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 text-regular">{error}</p>}
         <InputField
           label="First Name"
           placeholder="John"
