@@ -5,8 +5,6 @@ import { User } from "@/types/UserTypes";
 import { Dispatch } from "react";
 
 export const registerUser = async (userData: User, dispatch: Dispatch<any>) => {
-  console.log(userData, "user data");
-
   const user = await api
     .post("/auth/register", {
       firstName: userData.firstName,
