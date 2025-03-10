@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./global.css";
 import { poppins, raleway, sora } from "@/libs/fonts";
 import Providers from "./providers";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Namma Journey",
@@ -20,6 +21,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${raleway.variable} ${sora.variable} bg-background`}
       >
         <Providers>{children}</Providers>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

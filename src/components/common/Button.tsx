@@ -3,7 +3,7 @@ import React from "react";
 interface ButtonProps {
   children: React.ReactNode; // Content inside the button
   className?: string; // Additional styles
-  onClick?: () => void; // Click handler
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>; // Click handler
   type?: "button" | "submit" | "reset"; // Button type
   disabled?: boolean; // Disabled state
 }

@@ -2,14 +2,15 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { FiLock, FiMail, FiPhone, FiX } from "react-icons/fi";
+import { FiPhone } from "react-icons/fi";
 import PasswordInput from "@/components/common/PasswordInput";
 import EmailInput from "@/components/common/EmailInput";
+import { toast } from "sonner";
 
 interface UserCreationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (userData: any) => void;
+  onSave: (userData: any) => Promise<boolean>;
 }
 
 const UserCreationModal: React.FC<UserCreationModalProps> = ({
@@ -27,6 +28,7 @@ const UserCreationModal: React.FC<UserCreationModalProps> = ({
     profilePic: "",
     password: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -48,21 +50,79 @@ const UserCreationModal: React.FC<UserCreationModalProps> = ({
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.firstName || formData.firstName.length < 1) {
+      newErrors.firstName = "First name is required";
+    }
+
+    if (!formData.lastName || formData.lastName.length < 1) {
+      newErrors.lastName = "Last name is required";
+    }
+
+    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = "Valid email is required";
+    }
+
+    if (
+      !formData.phone ||
+      formData.phone.length < 10 ||
+      formData.phone.length > 15
+    ) {
+      newErrors.phone = "Phone number must be between 10 and 15 characters";
+    }
+
+    if (!formData.password || formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Create a new user object with all required fields
-    const result = onSave(formData);
-    if (result !== undefined && result !== false) {
-      // Reset form after submission
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        role: ["traveler"],
-        profilePic: "",
-        password: "",
-      });
+    if (!validateForm()) {
+      console.log("Validation failed:", errors);
+      return;
+    }
+
+    try {
+      const formattedData = {
+        ...formData,
+        phone: formData.phone.startsWith("+")
+          ? formData.phone
+          : `+${formData.phone}`,
+      };
+
+      console.log("Submitting user data:", formattedData);
+      const success = await onSave(formattedData);
+
+      if (success) {
+        console.log("User created successfully");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          role: ["traveler"],
+          profilePic: "",
+          password: "",
+        });
+      }
+    } catch (error: any) {
+      console.error("Error creating user:", error);
+      if (
+        error.message?.includes("email already exists") ||
+        error?.response?.data?.error?.includes("email already exists")
+      ) {
+        setErrors({
+          emailExists: "Email already exists",
+        });
+      } else {
+        toast.error(error.message || error?.response?.data?.error);
+      }
     }
   };
 
@@ -105,127 +165,160 @@ const UserCreationModal: React.FC<UserCreationModalProps> = ({
             </div>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    placeholder="First Name"
-                    className="w-full p-2 border text-body rounded-lg focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    &nbsp;
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    placeholder="Last Name"
-                    className="w-full p-2 border text-body rounded-lg focus:outline-none "
-                  />
-                </div>
-              </div>
-
-              <div>
-                <EmailInput
-                  label="Email address"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="email@example.com"
-                  required
-                />
-              </div>
-
-              <div>
-                <PasswordInput
-                  label="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Enter password"
-                  required
-                />
-              </div>
-
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  Phone number
+                  First Name
                 </label>
-                <div className="flex items-center gap-2 border rounded-md p-2">
-                  <FiPhone className="text-gray-500" />
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="Enter phone number"
-                    className="w-full text-body  focus:outline-none"
-                  />
-                </div>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  placeholder="First Name"
+                  className={`w-full p-2 border text-body rounded-lg focus:outline-none ${
+                    errors.firstName ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.firstName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.firstName}
+                  </p>
+                )}
               </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Role</label>
-                <div className="flex flex-wrap gap-2">
-                  {availableRoles.map((role) => (
-                    <button
-                      key={role}
-                      type="button"
-                      onClick={() => handleRoleChange(role)}
-                      className={`px-3 py-1 rounded-full text-body ${
-                        formData.role.includes(role)
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      {role.charAt(0).toUpperCase() + role.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  Profile photo
+                  Last Name
                 </label>
-                <div className="flex items-center gap-2">
-                  <Image
-                    src={formData.profilePic || "/images/default-avatar.png"}
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full object-cover"
-                    width={40}
-                    height={40}
-                  />
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  placeholder="Last Name"
+                  className={`w-full p-2 border text-body rounded-lg focus:outline-none ${
+                    errors.lastName ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.lastName && (
+                  <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <EmailInput
+                label="Email address"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="email@example.com"
+                required
+              />
+              {errors.emailExists ? (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.emailExists}
+                </p>
+              ) : (
+                errors.email && (
+                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                )
+              )}
+            </div>
+
+            <div>
+              <PasswordInput
+                label="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Enter password"
+                required
+              />
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Phone number
+              </label>
+              <div
+                className={`flex items-center gap-2 border rounded-md p-2 ${
+                  errors.phone ? "border-red-500" : ""
+                }`}
+              >
+                <FiPhone
+                  className={errors.phone ? "text-red-500" : "text-gray-500"}
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Enter phone number"
+                  className="w-full text-body focus:outline-none"
+                />
+              </div>
+              {errors.phone && (
+                <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Role</label>
+              <div className="flex flex-wrap gap-2">
+                {availableRoles.map((role) => (
                   <button
+                    key={role}
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="text-body text-gray-600 hover:bg-gray-50 rounded px-2 py-1"
+                    onClick={() => handleRoleChange(role)}
+                    className={`px-3 py-1 rounded-full text-body ${
+                      formData.role.includes(role)
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
                   >
-                    Click to replace
+                    {role.charAt(0).toUpperCase() + role.slice(1)}
                   </button>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        const url = URL.createObjectURL(file);
-                        setFormData((prev) => ({ ...prev, profilePic: url }));
-                      }
-                    }}
-                    className="hidden"
-                    accept="image/*"
-                  />
-                </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Profile photo
+              </label>
+              <div className="flex items-center gap-2">
+                <Image
+                  src={formData.profilePic || "/images/default-avatar.png"}
+                  alt="Profile"
+                  className="w-10 h-10 rounded-full object-cover"
+                  width={40}
+                  height={40}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-body text-gray-600 hover:bg-gray-50 rounded px-2 py-1"
+                >
+                  Click to replace
+                </button>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const url = URL.createObjectURL(file);
+                      setFormData((prev) => ({ ...prev, profilePic: url }));
+                    }
+                  }}
+                  className="hidden"
+                  accept="image/*"
+                />
               </div>
             </div>
 

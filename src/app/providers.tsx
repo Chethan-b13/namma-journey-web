@@ -26,6 +26,7 @@ function AuthSetup() {
           router.push("/");
         } catch (error) {
           console.error("Token refresh failed:", error);
+          // check here
           dispatch(logout());
           router.push("/login");
         }

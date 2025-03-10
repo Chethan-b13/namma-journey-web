@@ -4,8 +4,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AdminUsersResponse } from "@/types/UserTypes";
 import { useState } from "react";
 import api from "@/config/axios";
-import { auth } from "@/config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export const useUsers = () => {
   const queryClient = useQueryClient();
@@ -34,10 +32,7 @@ export const useUsers = () => {
         password: userData.password,
       });
 
-      // Invalidate and refetch users query after successful creation
-      await queryClient.invalidateQueries({ queryKey: ["users"] });
-
-      return response.data;
+      return response.data.user; // Return the created user data
     } catch (error: any) {
       console.error("Error creating user:", {
         error,
