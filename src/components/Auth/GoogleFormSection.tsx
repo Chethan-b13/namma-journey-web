@@ -42,7 +42,7 @@ const GoogleFormSection: React.FC<GoogleFormSectionProps> = ({
 
   const handleSuccessClose = () => {
     setIsSuccess(false);
-    router.push("/");
+    router.push("/admin");
   };
 
   return (

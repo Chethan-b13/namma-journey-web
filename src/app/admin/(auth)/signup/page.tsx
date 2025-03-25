@@ -60,7 +60,7 @@ const SignupPage = () => {
   const handleGoogleSignup = async () => {
     try {
       await handleGoogleAuth(dispatch, true);
-      router.push("/");
+      router.push("/admin");
     } catch (error) {
       console.error("Google signup error:", error);
       setError("Google signup failed. Try again.");

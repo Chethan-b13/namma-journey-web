@@ -19,7 +19,7 @@ const LoginPage = () => {
   const handleEmailLogin = async (email: string, password: string) => {
     try {
       await handleEmailSignIn(dispatch, email, password);
-      router.push("/");
+      router.push("/admin");
     } catch (error) {
       // Handle error (show toast, etc.)
     }
@@ -28,7 +28,7 @@ const LoginPage = () => {
   const handleGoogleLogin = async () => {
     try {
       await handleGoogleAuth(dispatch, false);
-      router.push("/");
+      router.push("/admin");
     } catch (error) {
       // Handle error
     }
