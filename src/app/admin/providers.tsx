@@ -20,10 +20,10 @@ function AuthSetup() {
         try {
           const userProfile = await getUserProfile();
           dispatch(setUser(userProfile));
-          router.push("/");
+          router.push("/admin");
         } catch (error) {
           dispatch(logout());
-          router.push("/login");
+          router.push("/admin/login");
         }
       } else {
         dispatch(logout());
@@ -32,8 +32,8 @@ function AuthSetup() {
         const pathname = window.location.pathname;
 
         // Only redirect to login if not on signup page
-        if (pathname !== "/signup") {
-          router.push("/login");
+        if (pathname !== "/admin/signup") {
+          router.push("/admin/login");
         }
       }
     });

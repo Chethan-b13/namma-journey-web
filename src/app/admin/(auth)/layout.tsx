@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import onBoarding from "../../../public/images/login-bag.svg";
+import onBoarding from "../../../../public/images/login-bag.svg";
 import Logo from "@/components/common/Logo";
 
 const AuthLayout = ({

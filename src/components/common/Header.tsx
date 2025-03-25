@@ -103,7 +103,7 @@ const Header = () => {
                 <button
                   onClick={() => {
                     handleLogout(dispatch);
-                    router.push("/login");
+                    router.push("/admin/login");
                   }}
                   className="block w-full text-left px-4 py-2 text-regular text-red-600 hover:bg-gray-50"
                 >
