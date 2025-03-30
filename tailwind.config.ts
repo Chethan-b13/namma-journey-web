@@ -20,6 +20,7 @@ export default {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        crimson_red: "#D72638",
         link: "#1E4AE9",
         button: "346AFF",
         sidebar: "#FAF9FF",
