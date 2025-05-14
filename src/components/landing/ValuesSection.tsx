@@ -82,8 +82,8 @@ const ValuesSection = () => {
             <div className="mt-16 p-8 bg-black text-white rounded-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full filter blur-3xl -mr-32 -mt-32"></div>
               <p className="text-xl md:text-2xl font-light italic text-center relative z-10">
-                "The richest experiences happen when we disconnect to
-                reconnect."
+                &ldquo;The richest experiences happen when we disconnect to
+                reconnect.&rdquo;
               </p>
             </div>
           </div>

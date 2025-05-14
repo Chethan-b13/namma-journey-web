@@ -23,21 +23,21 @@ const HeroSection = () => {
                 <span className="text-primary">loud</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
-                Because real connection doesn't happen on screens.
+                Because real connection doesn&apos;t happen on screens.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
                 <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-                  You <span className="text-secondary">weren't</span> made to{" "}
-                  <br /> live online.
+                  You <span className="text-secondary">weren&apos;t</span> made
+                  to <br /> live online.
                   {/* <br /> <span className="text-primary">Connect in person.</span> */}
                 </h2>
                 <p className="text-lg text-gray-600">
-                  It's time to come home — to people who see you, to places that
-                  ground you, and to the kind of presence you forgot you were
-                  missing. <br />
+                  It&apos;s time to come home — to people who see you, to places
+                  that ground you, and to the kind of presence you forgot you
+                  were missing. <br />
                   No filters. No feeds. Just real life, lived fully.
                 </p>
                 {/* <div className="pt-4 flex flex-wrap gap-4">

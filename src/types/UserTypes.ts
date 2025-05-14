@@ -2,6 +2,7 @@ import { User as FirebaseUser } from "firebase/auth";
 
 // Backend User type
 export interface User {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -9,6 +10,7 @@ export interface User {
   firebaseUID: string;
   profilePic?: string;
   role: string[];
+  onViewClick?: (user: User) => void;
 }
 
 // Type for user registration data

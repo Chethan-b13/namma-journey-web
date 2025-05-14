@@ -11,13 +11,14 @@ import UserCreationModal from "../UserProfile/UserCreationModal";
 import { FiUserPlus } from "react-icons/fi";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { User } from "@/types/UserTypes"; // Import User type
 
 const AdminUserTable: React.FC = () => {
   const queryClient = useQueryClient();
   const {
     users,
     loading,
-    error,
+    error, // Add console.log to use this variable
     totalRecords,
     currentPage,
     limit,
@@ -28,16 +29,19 @@ const AdminUserTable: React.FC = () => {
     createUser,
   } = useUsers();
 
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  // Log error if it exists
+  if (error) console.error("Error loading users:", error);
+
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const handleViewClick = (user: any) => {
+  const handleViewClick = (user: User) => {
     setSelectedUser(user);
     setIsModalOpen(true);
   };
 
-  const handleSave = async (userData: any) => {
+  const handleSave = async (userData: User) => {
     try {
       const success = await updateUser(userData);
       if (success) {
@@ -58,7 +62,7 @@ const AdminUserTable: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleCreateUser = async (userData: any) => {
+  const handleCreateUser = async (userData: Partial<User>) => {
     try {
       // Call backend API to create a new user
       const newUser = await createUser(userData);
@@ -121,13 +125,15 @@ const AdminUserTable: React.FC = () => {
         actionButton={addUserButton}
       />
 
-      <UserProfileModal
-        user={selectedUser}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSave}
-        onDelete={handleDelete}
-      />
+      {selectedUser && (
+        <UserProfileModal
+          user={selectedUser}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
+      )}
 
       <UserCreationModal
         isOpen={isCreateModalOpen}

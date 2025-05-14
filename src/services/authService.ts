@@ -122,11 +122,7 @@ export const handleEmailSignIn = async (
   password: string
 ): Promise<void> => {
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    await signInWithEmailAndPassword(auth, email, password);
 
     const userProfile = await getUserProfile();
     dispatch(setUser(userProfile));

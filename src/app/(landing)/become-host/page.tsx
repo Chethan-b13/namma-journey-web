@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { FaHeart, FaUsers, FaMapMarkedAlt } from "react-icons/fa";
 import NavBar from "@/components/landing/NavBar";
 
@@ -26,8 +25,8 @@ const BecomeHostPage = () => {
                 Lead the Change.
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                You're not just planning events. You're helping people remember
-                what it means to live.
+                You&apos;re not just planning events. You&apos;re helping people
+                remember what it means to live.
               </p>
             </div>
           </div>
@@ -46,8 +45,8 @@ const BecomeHostPage = () => {
                     Who is a Hangout Host or Journey Captain?
                   </h2>
                   <p className="text-gray-600 mb-4">
-                    You don't need to be an influencer. You just need the heart
-                    to bring people together.
+                    You don&apos;t need to be an influencer. You just need the
+                    heart to bring people together.
                   </p>
                   <div className="space-y-3 mt-4">
                     {[
@@ -99,8 +98,8 @@ const BecomeHostPage = () => {
 
                 <div className="bg-primary/10 p-6 rounded-xl">
                   <p className="text-primary font-medium italic">
-                    "This isn't just about events. It's about creating spaces
-                    where people come alive again."
+                    &quot;This isn&apos;t just about events. It&apos;s about
+                    creating spaces where people come alive again.&quot;
                   </p>
                 </div>
               </div>
@@ -223,7 +222,7 @@ const BecomeHostPage = () => {
                   </button>
 
                   <p className="text-xs text-gray-500 text-center mt-4">
-                    We'll reach out to you within 48 hours to discuss next
+                    We&apos;ll reach out to you within 48 hours to discuss next
                     steps.
                   </p>
                 </form>

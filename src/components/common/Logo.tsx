@@ -5,14 +5,9 @@ import logo from "../../../public/images/logo_web.png";
 interface LogoProps {
   logoHeight?: number;
   logoWidth?: number;
-  logoTextSize?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({
-  logoHeight = 70,
-  logoWidth = 70,
-  logoTextSize = "30px",
-}) => {
+const Logo: React.FC<LogoProps> = ({ logoHeight = 70, logoWidth = 70 }) => {
   return (
     <div className="flex items-center">
       <Image
@@ -21,9 +16,6 @@ const Logo: React.FC<LogoProps> = ({
         width={`${logoWidth}`}
         height={`${logoHeight}`}
       />
-      {/* <p className={`text-[${logoTextSize}] font-heading font-semibold`}>
-        namma journey
-      </p> */}
     </div>
   );
 };

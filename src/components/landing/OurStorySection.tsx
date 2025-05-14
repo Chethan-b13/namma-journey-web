@@ -49,12 +49,13 @@ const OurStorySection = () => {
                   After that, we saw it everywhere: people scrolling through
                   life instead of living it. Kids on screens instead of in
                   playgrounds. Retired parents fighting boredom with reels.
-                  Friends recording concerts they weren't even enjoying.
+                  Friends recording concerts they weren&apos;t even enjoying.
                 </p>
                 <p className="text-lg text-primary font-medium">
-                  That's when it hit us — the world doesn't need another app to
-                  keep you online. It needs one to bring you back offline.
-                  That's what <span className="text-black">Logoutloud</span> is.
+                  That&apos;s when it hit us — the world doesn&apos;t need
+                  another app to keep you online. It needs one to bring you back
+                  offline. That&apos;s what{" "}
+                  <span className="text-black">Logoutloud</span> is.
                 </p>
               </div>
             </div>

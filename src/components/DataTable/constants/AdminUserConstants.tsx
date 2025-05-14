@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import Image from "next/image";
+import { User } from "@/types/UserTypes";
 
 export const UserTableColumns = [
   {
@@ -13,7 +14,7 @@ export const UserTableColumns = [
     title: "User",
     accessor: "firstName",
     searchable: true,
-    render: (value: string, row: any) => (
+    render: (value: string, row: User) => (
       <div className="flex items-center gap-3">
         <Image
           src={row.profilePic || "/images/default-avatar.png"}
@@ -99,7 +100,7 @@ export const UserTableColumns = [
     key: "actions",
     title: "Actions",
     accessor: "_id",
-    render: (value: string, row: any) => (
+    render: (value: string, row: User) => (
       <div className="flex gap-1">
         <button
           onClick={() => row.onViewClick?.(row)}

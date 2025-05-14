@@ -73,7 +73,9 @@ const GoogleFormSection: React.FC<GoogleFormSectionProps> = ({
 
       {isLoginPage ? (
         <div className="flex items-center justify-center space-x-2">
-          <p className="text-[14px] text-gray-400">Don't have an account?</p>
+          <p className="text-[14px] text-gray-400">
+            Don&apos;t have an account?
+          </p>
           <a href="/signup" className="text-link text-[14px]">
             Sign up
           </a>

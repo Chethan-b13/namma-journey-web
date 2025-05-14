@@ -22,6 +22,7 @@ function AuthSetup() {
           dispatch(setUser(userProfile));
           router.push("/admin");
         } catch (error) {
+          console.error("Auth error:", error);
           dispatch(logout());
           router.push("/admin/login");
         }

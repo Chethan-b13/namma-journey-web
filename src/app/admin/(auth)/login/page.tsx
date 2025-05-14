@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import InputField from "@/components/common/InputField";
 import GoogleFormSection from "@/components/Auth/GoogleFormSection";
 import { handleEmailSignIn, handleGoogleAuth } from "@/services/authService";
 import { useRouter } from "next/navigation";
@@ -22,6 +21,7 @@ const LoginPage = () => {
       router.push("/admin");
     } catch (error) {
       // Handle error (show toast, etc.)
+      console.error(error); // Add this to use the error variable
     }
   };
 
@@ -31,6 +31,7 @@ const LoginPage = () => {
       router.push("/admin");
     } catch (error) {
       // Handle error
+      console.error(error); // Add this to use the error variable
     }
   };
 

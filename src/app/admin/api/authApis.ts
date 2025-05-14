@@ -3,8 +3,12 @@ import { setUser } from "@/store/slices/authSlice";
 import api from "@/config/axios";
 import { User } from "@/types/UserTypes";
 import { Dispatch } from "react";
+import { AnyAction } from "redux";
 
-export const registerUser = async (userData: User, dispatch: Dispatch<any>) => {
+export const registerUser = async (
+  userData: User,
+  dispatch: Dispatch<AnyAction>
+) => {
   console.log(userData, "user data");
 
   const user = await api

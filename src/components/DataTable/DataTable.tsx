@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { userTableSkeletonColumns } from "./constants/AdminUserConstants";
 import UserProfileModal from "../UserProfile/UserProfileModal";
+import { User } from "@/types/UserTypes";
 
 interface DataTableProps extends BaseDataTableProps {
   actionButton?: React.ReactNode;
@@ -38,8 +39,10 @@ const DataTable: React.FC<DataTableProps> = ({
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>(
     {}
   );
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log(setSelectedUser, "setSelectedUser");
 
   // Add null check
   if (!data) {
@@ -104,17 +107,19 @@ const DataTable: React.FC<DataTableProps> = ({
   return (
     <div className="w-full">
       {/* Modal */}
-      <UserProfileModal
-        user={selectedUser}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={(userData) => {
-          setIsModalOpen(false);
-        }}
-        onDelete={(userId) => {
-          setIsModalOpen(false);
-        }}
-      />
+      {selectedUser && (
+        <UserProfileModal
+          user={selectedUser}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSave={() => {
+            setIsModalOpen(false);
+          }}
+          onDelete={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
 
       {/* Header */}
       <div className="flex justify-between items-center mb-2 px-2">

@@ -17,13 +17,13 @@ const SupportPage = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <div className="inline-block mb-4 px-4 py-1 bg-secondary/10 rounded-full text-secondary font-medium">
-                We're Here To Help
+                We&apos;re Here To Help
               </div>
               <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
                 Need <span className="text-primary">Support</span>?
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                We're committed to making your offline experience seamless.
+                We&apos;re committed to making your offline experience seamless.
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@ const SupportPage = () => {
                 <h3 className="text-xl font-bold mb-3">Host Support</h3>
                 <p className="text-gray-600 mb-4">
                   Need assistance with managing your experiences or events?
-                  We've got you covered.
+                  We&apos;ve got you covered.
                 </p>
                 <p className="text-sm text-gray-500">
                   Response time: Within 12 hours
@@ -69,7 +69,7 @@ const SupportPage = () => {
                 </div>
                 <h3 className="text-xl font-bold mb-3">General Inquiries</h3>
                 <p className="text-gray-600 mb-4">
-                  Have feedback or suggestions? We'd love to hear from you.
+                  Have feedback or suggestions? We&apos;d love to hear from you.
                 </p>
                 <p className="text-sm text-gray-500">
                   Response time: Within 48 hours
@@ -90,8 +90,8 @@ const SupportPage = () => {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
               <p className="text-lg text-gray-600">
-                Fill out the form below and we'll get back to you as soon as
-                possible.
+                Fill out the form below and we&apos;ll get back to you as soon
+                as possible.
               </p>
             </div>
 
@@ -175,7 +175,7 @@ const SupportPage = () => {
                 </button>
 
                 <p className="text-xs text-gray-500 text-center">
-                  We'll respond to your inquiry as quickly as possible.
+                  We&apos;ll respond to your inquiry as quickly as possible.
                 </p>
               </form>
             </div>

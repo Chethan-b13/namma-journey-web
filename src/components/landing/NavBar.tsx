@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "../../../public/styles/navbar.css";
+import Link from "next/link";
 
 interface NavBarProps {
   alwaysVisible?: boolean;
@@ -35,10 +36,10 @@ const NavBar = ({ alwaysVisible = false }: NavBarProps) => {
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <a className="font-bold text-xl" href="/">
+        <Link href="/" className="font-bold text-xl">
           <span className="text-black">Logout</span>
           <span className="text-primary">loud</span>
-        </a>
+        </Link>
         <div className="hidden md:flex items-center gap-8">
           <a href="/about" className="hover:text-secondary transition-colors">
             Our Story

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaUsers, FaHandshake, FaGlobeAmericas, FaHeart } from "react-icons/fa";
+import { FaUsers, FaHandshake, FaGlobeAmericas } from "react-icons/fa";
 import NavBar from "@/components/landing/NavBar";
 import Footer from "@/components/landing/Footer";
 
@@ -32,12 +32,12 @@ const PartnerPage = () => {
 
             <div className="mt-8 text-lg text-gray-600 space-y-6">
               <p>
-                You're already doing the work — curating experiences, building
-                communities, helping people feel alive again. Now, imagine your
-                efforts reaching even more hearts.
+                You&apos;re already doing the work — curating experiences,
+                building communities, helping people feel alive again. Now,
+                imagine your efforts reaching even more hearts.
               </p>
               <p className="font-medium text-black">
-                At LogoutLoud, we're building a movement.
+                At LogoutLoud, we&apos;re building a movement.
               </p>
               <p>
                 A home for all those who believe that real connection happens
@@ -54,7 +54,7 @@ const PartnerPage = () => {
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-6">If you're:</h2>
+              <h2 className="text-3xl font-bold mb-6">If you&apos;re:</h2>
               <ul className="space-y-4 text-lg">
                 <li className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center mt-1">
@@ -82,7 +82,7 @@ const PartnerPage = () => {
                 </li>
               </ul>
               <p className="mt-6 text-xl font-medium text-primary">
-                We'd love to partner with you.
+                We&apos;d love to partner with you.
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ const PartnerPage = () => {
                 <h3 className="text-xl font-bold mb-3">Do What You Love</h3>
                 <p className="text-gray-600">
                   Focus on what you do best: crafting memorable experiences.
-                  We'll help with visibility, booking, and community.
+                  We&apos;ll help with visibility, booking, and community.
                 </p>
               </div>
 
@@ -126,8 +126,8 @@ const PartnerPage = () => {
                   Be Part of a Movement
                 </h3>
                 <p className="text-gray-600">
-                  You're not just listing an event. You're joining a mission to
-                  bring people back to each other — and yourself.
+                  You&apos;re not just listing an event. You&apos;re joining a
+                  mission to bring people back to each other — and yourself.
                 </p>
               </div>
             </div>
@@ -226,7 +226,7 @@ const PartnerPage = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">
-                📣 Let's Create Magic Together
+                📣 Let&apos;s Create Magic Together
               </h2>
               <p className="text-xl">
                 You bring the vibe.
@@ -234,7 +234,7 @@ const PartnerPage = () => {
                 We bring the tribe.
               </p>
               <p className="mt-4 text-lg">
-                Together, we'll help people logout — and live out loud.
+                Together, we&apos;ll help people logout — and live out loud.
               </p>
             </div>
 
@@ -334,7 +334,8 @@ const PartnerPage = () => {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Tell us about your experiences and how you'd like to partner
+                    Tell us about your experiences and how you&apos;d like to
+                    partner
                   </label>
                   <textarea
                     id="message"
@@ -353,8 +354,8 @@ const PartnerPage = () => {
                 </button>
 
                 <p className="text-xs text-gray-500 text-center">
-                  We'll get back to you within 48 hours to discuss partnership
-                  opportunities.
+                  We&apos;ll get back to you within 48 hours to discuss
+                  partnership opportunities.
                 </p>
               </form>
             </div>

@@ -24,7 +24,7 @@ const AboutPage = () => {
                 About LogoutLoud
               </div>
               <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-                We're building a way <br />
+                We&apos;re building a way <br />
                 <span className="text-primary">back to each other</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -94,15 +94,15 @@ const AboutPage = () => {
                 Why We Exist
               </div>
               <h2 className="text-4xl font-bold mb-6">
-                The solution isn't more content.
+                The solution isn&apos;t more content.
                 <br />
-                It's more <span className="text-primary">connection</span>.
+                It&apos;s more <span className="text-primary">connection</span>.
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                We've seen it firsthand — people glued to screens at concerts,
-                kids swiping instead of playing, old parents learning to scroll
-                just to cope. People everywhere, scrolling through life instead
-                of living it.
+                We&apos;ve seen it firsthand — people glued to screens at
+                concerts, kids swiping instead of playing, old parents learning
+                to scroll just to cope. People everywhere, scrolling through
+                life instead of living it.
               </p>
             </div>
 
@@ -175,10 +175,10 @@ const AboutPage = () => {
                 </h2>
                 <p className="text-lg text-gray-600">
                   We believe the solution to stress, loneliness, and burnout
-                  isn't more content. It's more connection.
+                  isn&apos;t more content. It&apos;s more connection.
                 </p>
                 <p className="text-lg text-gray-600">
-                  That's the medicine we forgot we needed.
+                  That&apos;s the medicine we forgot we needed.
                 </p>
                 <div className="pt-4">
                   <button className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg font-bold flex items-center gap-2 transition-all shadow-lg">
@@ -203,11 +203,11 @@ const AboutPage = () => {
                 Come With Us
               </div>
               <h2 className="text-4xl md:text-5xl font-bold">
-                We're not here to keep you glued to a screen.
+                We&apos;re not here to keep you glued to a screen.
               </h2>
               <p className="text-xl max-w-2xl mx-auto">
-                We're here to help you put it down. Let's go back to living.
-                Let's LogoutLoud.
+                We&apos;re here to help you put it down. Let&apos;s go back to
+                living. Let&apos;s LogoutLoud.
               </p>
               <button className="bg-white hover:bg-opacity-90 text-primary px-10 py-4 rounded-lg text-lg font-bold transition-all shadow-lg">
                 Start Your Journey
