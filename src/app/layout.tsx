@@ -3,9 +3,9 @@ import "./global.css";
 import { poppins, raleway, sora } from "@/libs/fonts";
 
 export const metadata: Metadata = {
-  title: "Namma Journey",
+  title: "Logoutloud",
   description:
-    "Namma Journey is a travel app that helps travellers discover travel plans and join rooms to travel together.",
+    "Logoutloud is an app that helps people disconnect from technology and reconnect with each other through meaningful in-person experiences.",
 };
 
 export default function RootLayout({

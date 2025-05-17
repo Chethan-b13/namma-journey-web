@@ -12,7 +12,7 @@ const Logo: React.FC<LogoProps> = ({ logoHeight = 70, logoWidth = 70 }) => {
     <div className="flex items-center">
       <Image
         src={logo}
-        alt="namma journey logo"
+        alt="logoutloud logo"
         width={`${logoWidth}`}
         height={`${logoHeight}`}
       />

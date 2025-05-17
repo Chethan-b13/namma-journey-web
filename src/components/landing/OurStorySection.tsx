@@ -24,7 +24,7 @@ const OurStorySection = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-chart-3/20 to-primary/20 rounded-2xl blur-xl"></div>
                 <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-white/20">
                   <Image
-                    src="https://images.unsplash.com/photo-1658236748082-9d43c338b001?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    src="/images/our-story.jpg"
                     alt="Sunset at beach"
                     fill
                     className="object-cover"

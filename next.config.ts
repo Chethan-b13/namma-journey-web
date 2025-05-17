@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
       "picsum.photos",
       "randomuser.me",
       "images.unsplash.com",
+      "unsplash.com",
+    ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -15,7 +15,7 @@ const AuthLayout = ({
       <div className="flex items-start lg:items-center justify-center flex-1 lg:space-x-[100px]">
         <Image
           src={onBoarding}
-          alt="namma journey onboarding illustration"
+          alt="logoutloud onboarding illustration"
           className="hidden lg:block"
         />
         <div className="p-4 flex flex-col w-screen lg:p-8 space-y-8 lg:w-[450px] md:w-[600px]">

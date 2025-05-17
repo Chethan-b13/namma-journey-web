@@ -26,8 +26,7 @@ const FeatureSection = () => {
                   title: "Local Hangouts",
                   description:
                     "Casual meetups with like-minded people in your area. From coffee chats to hiking trips, find your tribe and create meaningful connections.",
-                  image:
-                    "https://images.unsplash.com/photo-1628550999639-3d7912be97ee?q=80&w=2035&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  image: "/images/features-1.jpg",
                   reverse: false,
                   color: "from-primary/5 to-chart-1/5",
                 },
@@ -35,8 +34,7 @@ const FeatureSection = () => {
                   title: "Curated Journeys",
                   description:
                     "Expertly designed experiences that create lasting memories. Travel together, learn together, grow together with our signature multi-day adventures.",
-                  image:
-                    "https://images.unsplash.com/photo-1657838177525-87a4e4c936ba?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  image: "/images/features-2.jpg",
                   reverse: true,
                   color: "from-chart-2/5 to-chart-3/5",
                 },
@@ -44,8 +42,7 @@ const FeatureSection = () => {
                   title: "Community Stories",
                   description:
                     "Share your offline adventures and inspire others to disconnect. Because the best stories happen when we log out and tune in to life around us.",
-                  image:
-                    "https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  image: "/images/features-3.jpg",
                   reverse: false,
                   color: "from-chart-4/5 to-primary/5",
                 },

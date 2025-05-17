@@ -13,7 +13,7 @@ const AboutPage = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex flex-col justify-center overflow-hidden">
         {/* Background elements */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center opacity-5 z-0"></div>
+        <div className="absolute inset-0 bg-[url('/images/about-bg.jpg')] bg-cover bg-center opacity-5 z-0"></div>
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl"></div>
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-chart-3/10 rounded-full filter blur-3xl"></div>
 
@@ -70,7 +70,7 @@ const AboutPage = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-chart-2/20 rounded-2xl blur-xl"></div>
                 <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-white/20">
                   <Image
-                    src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2069&auto=format&fit=crop"
+                    src="/images/about.jpg"
                     alt="Friends at beach"
                     fill
                     className="object-cover"
@@ -155,7 +155,7 @@ const AboutPage = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-chart-3/20 to-primary/20 rounded-2xl blur-xl"></div>
                 <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-white/20">
                   <Image
-                    src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2069&auto=format&fit=crop"
+                    src="/images/belief.jpg"
                     alt="Friends laughing together"
                     fill
                     className="object-cover"

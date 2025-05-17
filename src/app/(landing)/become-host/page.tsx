@@ -11,7 +11,7 @@ const BecomeHostPage = () => {
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 overflow-hidden">
         {/* Background elements */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2069')] bg-cover bg-center opacity-5 z-0"></div>
+        <div className="absolute inset-0 bg-[url('/images/become-host.jpg')] bg-cover bg-center opacity-5 z-0"></div>
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl"></div>
 
         <div className="container mx-auto px-6 z-10 relative">

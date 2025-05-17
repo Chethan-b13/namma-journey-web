@@ -33,24 +33,21 @@ const ValuesSection = () => {
                   icon: (
                     <FaHandHoldingHeart className="text-secondary text-3xl" />
                   ),
-                  image:
-                    "https://images.unsplash.com/photo-1566140967404-b8b3932483f5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  image: "/images/values-1.jpg",
                 },
                 {
                   title: "Let Nature Heal You",
                   description:
                     "Step into quiet forests, starry skies, and moments that ground you in the now.",
                   icon: <FaLeaf className="text-chart-3 text-3xl" />,
-                  image:
-                    "https://images.unsplash.com/photo-1646337038283-4a8a302b0a3c?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  image: "/images/values-2.jpg",
                 },
                 {
                   title: "Make Memories, Not Content",
                   description:
                     "Live stories you'll tell forever — not because they got likes, but because they changed you.",
                   icon: <FaHeart className="text-chart-4 text-3xl" />,
-                  image:
-                    "https://images.unsplash.com/photo-1598623549917-a38dc6cd19b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  image: "/images/values-3.jpg",
                 },
               ].map((item, i) => (
                 <div

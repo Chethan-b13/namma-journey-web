@@ -8,7 +8,7 @@ const HeroSection = () => {
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
         {/* Background elements */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1533158307587-828f0a76ef46?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center opacity-5 z-0"></div>
+        <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-5 z-0"></div>
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl"></div>
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-chart-3/10 rounded-full filter blur-3xl"></div>
 
@@ -89,7 +89,7 @@ const HeroSection = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-chart-2/20 rounded-2xl blur-xl"></div>
                 <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-white/20">
                   <Image
-                    src="https://images.unsplash.com/photo-1520685303244-0461943ece6e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    src="/images/header-image.jpg"
                     alt="People connecting"
                     fill
                     className="object-cover"

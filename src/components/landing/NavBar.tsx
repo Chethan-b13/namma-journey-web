@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import "../../../public/styles/navbar.css";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavBarProps {
   alwaysVisible?: boolean;
@@ -10,6 +11,7 @@ interface NavBarProps {
 
 const NavBar = ({ alwaysVisible = false }: NavBarProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (alwaysVisible) return; // Skip scroll behavior if visible prop is true
@@ -29,6 +31,10 @@ const NavBar = ({ alwaysVisible = false }: NavBarProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [alwaysVisible]);
 
+  const isActive = (path: string) => {
+    return pathname === path ? "text-secondary" : "";
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 shadow-md py-4 transition-all duration-300 navbar-container ${
@@ -41,16 +47,28 @@ const NavBar = ({ alwaysVisible = false }: NavBarProps) => {
           <span className="text-primary">loud</span>
         </Link>
         <div className="hidden md:flex items-center gap-8">
-          <a href="/about" className="hover:text-secondary transition-colors">
+          <a
+            href="/about"
+            className={`hover:text-secondary ${
+              isActive("/about") ? "text-secondary" : ""
+            } transition-colors`}
+          >
             Our Story
           </a>
           <a
             href="/become-host"
-            className="hover:text-secondary transition-colors"
+            className={`hover:text-secondary ${
+              isActive("/become-host") ? "text-secondary" : ""
+            } transition-colors`}
           >
             Host with Us
           </a>
-          <a href="/partner" className="hover:text-primary transition-colors">
+          <a
+            href="/partner"
+            className={`hover:text-secondary ${
+              isActive("/partner") ? "text-secondary" : ""
+            } transition-colors`}
+          >
             Partner
           </a>
           <button className="bg-primary hover:bg-secondary hover:text-white transition-colors text-black px-4 py-2 rounded-lg font-medium">
