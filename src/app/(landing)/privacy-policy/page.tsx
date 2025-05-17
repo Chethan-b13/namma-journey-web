@@ -31,10 +31,11 @@ const PrivacyPolicyPage = () => {
                   1. INTRODUCTION
                 </h2>
                 <p className="text-gray-700 mb-4 leading-relaxed">
-                  LogoutLoud ("we," "our," or "us") is committed to protecting
-                  your privacy. This Privacy Policy explains how your personal
-                  information is collected, used, and disclosed by LogoutLoud
-                  when you use our mobile application (the "App").
+                  LogoutLoud (&quot;we,&quot; &quot;our,&quot; or
+                  &quot;us&quot;) is committed to protecting your privacy. This
+                  Privacy Policy explains how your personal information is
+                  collected, used, and disclosed by LogoutLoud when you use our
+                  mobile application (the &quot;App&quot;).
                 </p>
                 <p className="text-gray-700 mb-4 leading-relaxed">
                   This Privacy Policy applies to information we collect when you
@@ -322,7 +323,7 @@ const PrivacyPolicyPage = () => {
 
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  8. CHILDREN'S PRIVACY
+                  8. CHILDREN&apos;S PRIVACY
                 </h2>
                 <p className="text-gray-700 leading-relaxed">
                   Our App is not intended for children under 13 years of age. We
@@ -360,7 +361,7 @@ const PrivacyPolicyPage = () => {
                 </h2>
                 <p className="text-gray-700 mb-4 leading-relaxed">
                   We may update our Privacy Policy from time to time. If we make
-                  material changes to how we treat our users' personal
+                  material changes to how we treat our users&apos; personal
                   information, we will post the new Privacy Policy on this page
                   and notify you through a notice on the App.
                 </p>
