@@ -28,6 +28,38 @@ const PrivacyPolicyPage = () => {
             <div className="space-y-8">
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  0. DEFINITIONS
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  The following definitions apply throughout this Privacy
+                  Policy:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 text-gray-700">
+                  <li>
+                    <span className="font-medium">&quot;App&quot;</span> refers
+                    to the LogoutLoud mobile application.
+                  </li>
+                  <li>
+                    <span className="font-medium">
+                      &quot;Personal Information&quot;
+                    </span>{" "}
+                    means any information that identifies or can be used to
+                    identify a person, directly or indirectly.
+                  </li>
+                  <li>
+                    <span className="font-medium">&quot;Processing&quot;</span>{" "}
+                    means any operation or set of operations performed on
+                    Personal Information, such as collection, storage, use,
+                    sharing, or deletion.
+                  </li>
+                  <li>
+                    <span className="font-medium">&quot;User&quot;</span> refers
+                    to any individual accessing or using the App.
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
                   1. INTRODUCTION
                 </h2>
                 <p className="text-gray-700 mb-4 leading-relaxed">
@@ -256,6 +288,11 @@ const PrivacyPolicyPage = () => {
                   transmitted through our App. Any transmission of personal
                   information is at your own risk.
                 </p>
+                <p className="text-gray-700 mt-4 leading-relaxed">
+                  In the event of a data breach that affects your personal
+                  information, we will notify you as required by applicable law
+                  and may notify relevant authorities as appropriate.
+                </p>
               </div>
 
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
@@ -388,7 +425,37 @@ const PrivacyPolicyPage = () => {
 
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  12. APP STORE PROVIDERS
+                  12. PAYMENT PROCESSING
+                </h2>
+                <p className="text-gray-700 leading-relaxed">
+                  Payments made through the App are processed by third-party
+                  payment gateways such as Razorpay. When you make a payment,
+                  you may be required to provide your payment details directly
+                  to Razorpay or any other processor, which will collect, use,
+                  and process your information in accordance with their privacy
+                  policies.
+                </p>
+                <p className="text-gray-700 mt-4 leading-relaxed">
+                  We do not collect or store your full payment card information.
+                  We only receive confirmation of your payment status.
+                </p>
+                <p className="text-gray-700 mt-4 leading-relaxed">
+                  For more information, please review Razorpay&apos;s privacy
+                  policy at:{" "}
+                  <a
+                    href="https://razorpay.com/privacy/"
+                    className="text-primary underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    https://razorpay.com/privacy/
+                  </a>
+                </p>
+              </div>
+
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  13. APP STORE PROVIDERS
                 </h2>
                 <p className="text-gray-700 mb-4 leading-relaxed">
                   When you download our App through the Apple App Store or
@@ -412,7 +479,7 @@ const PrivacyPolicyPage = () => {
 
               <div className="bg-primary/5 p-6 rounded-xl border-l-4 border-primary">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  13. CONTACT US
+                  14. CONTACT US
                 </h2>
                 <p className="text-gray-700 mb-4 leading-relaxed">
                   If you have any questions about this Privacy Policy or our
