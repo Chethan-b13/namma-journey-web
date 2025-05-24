@@ -1,9 +1,85 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import NavBar from "@/components/landing/NavBar";
 import Footer from "@/components/landing/Footer";
 import { FaHeadset, FaComments, FaQuestionCircle } from "react-icons/fa";
+import api from "@/config/axios";
+
+interface SupportRequest {
+  subject: string;
+  message: string;
+  category:
+    | "bug"
+    | "app_crash"
+    | "login_issues"
+    | "feature_request"
+    | "account"
+    | "booking_issues"
+    | "payment"
+    | "other";
+  priority: "low" | "normal" | "high";
+  attachments?: string[];
+  name: string;
+  email: string;
+}
+
+const supportService = {
+  submitSupportRequest: async (requestData: SupportRequest) => {
+    const response = await api.post("/support", requestData);
+    return response.data;
+  },
+};
 
 const SupportPage = () => {
+  const [formData, setFormData] = useState<SupportRequest>({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    category: "booking_issues",
+    priority: "normal",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      await supportService.submitSupportRequest(formData);
+      setSubmitSuccess(true);
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+        category: "booking_issues",
+        priority: "normal",
+      });
+    } catch (error: any) {
+      console.error("Error submitting support request:", error);
+      setSubmitError(
+        error?.response?.data?.message ||
+          "Failed to submit your request. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white text-black">
       <NavBar alwaysVisible={true} />
@@ -96,88 +172,188 @@ const SupportPage = () => {
             </div>
 
             <div className="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              {submitSuccess ? (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-8 w-8 text-green-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
+                  <p className="text-gray-600">
+                    Your support request has been submitted successfully. We'll
+                    get back to you soon.
+                  </p>
+                </div>
+              ) : (
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                  {submitError && (
+                    <div className="bg-red-50 text-red-500 p-3 rounded-lg text-sm">
+                      {submitError}
+                    </div>
+                  )}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="Your name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="you@example.com"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </div>
+
                   <div>
                     <label
-                      htmlFor="name"
+                      htmlFor="category"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Full Name
+                      Category
+                    </label>
+                    <select
+                      id="category"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      value={formData.category}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="booking_issues">Booking Issue</option>
+                      <option value="account">Account Help</option>
+                      <option value="payment">Payment Problem</option>
+                      <option value="bug">Bug Report</option>
+                      <option value="app_crash">App Crash</option>
+                      <option value="login_issues">Login Issues</option>
+                      <option value="feature_request">Feature Request</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Subject
                     </label>
                     <input
                       type="text"
-                      id="name"
+                      id="subject"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                      placeholder="Your name"
+                      placeholder="Brief description of your issue"
+                      value={formData.subject}
+                      onChange={handleInputChange}
                       required
                     />
                   </div>
+
                   <div>
                     <label
-                      htmlFor="email"
+                      htmlFor="priority"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Email Address
+                      Priority
                     </label>
-                    <input
-                      type="email"
-                      id="email"
+                    <select
+                      id="priority"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                      placeholder="you@example.com"
+                      value={formData.priority}
+                      onChange={handleInputChange}
                       required
-                    />
+                    >
+                      <option value="low">Low</option>
+                      <option value="normal">Normal</option>
+                      <option value="high">High</option>
+                    </select>
                   </div>
-                </div>
 
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                  <div>
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      rows={4}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      placeholder="Please describe your issue in detail"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      required
+                    ></textarea>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-primary hover:bg-secondary hover:text-white text-black font-medium py-3 px-6 rounded-lg transition-all shadow-md"
+                    disabled={isSubmitting}
                   >
-                    Subject
-                  </label>
-                  <select
-                    id="subject"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    required
-                  >
-                    <option value="">Select a subject</option>
-                    <option value="booking">Booking Issue</option>
-                    <option value="account">Account Help</option>
-                    <option value="host">Host Support</option>
-                    <option value="feedback">Feedback</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </button>
 
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    placeholder="How can we help you?"
-                    required
-                  ></textarea>
-                </div>
+                  <p className="text-xs text-gray-500 text-center">
+                    We&apos;ll respond to your inquiry as quickly as possible.
+                  </p>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
 
-                <button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-secondary hover:text-white text-black font-medium py-3 px-6 rounded-lg transition-all shadow-md"
-                >
-                  Send Message
-                </button>
+      {/* other ways to get help email to support@logoutloud.com */}
+      <section className="py-16 bg-gray-50 relative overflow-hidden">
+        <div className="absolute -top-40 right-20 w-80 h-80 bg-primary/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-20 w-96 h-96 bg-chart-3/10 rounded-full filter blur-3xl"></div>
 
-                <p className="text-xs text-gray-500 text-center">
-                  We&apos;ll respond to your inquiry as quickly as possible.
-                </p>
-              </form>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">
+                Other Ways to Get Help
+              </h2>
+              <p className="text-lg text-gray-600">
+                We&apos;re here to help you 24/7. You can also email us at
+                support@logoutloud.com
+              </p>
             </div>
           </div>
         </div>
