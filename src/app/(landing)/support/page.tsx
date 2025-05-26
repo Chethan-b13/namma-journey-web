@@ -192,8 +192,8 @@ const SupportPage = () => {
                   </div>
                   <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
                   <p className="text-gray-600">
-                    Your support request has been submitted successfully. We'll
-                    get back to you soon.
+                    Your support request has been submitted successfully.
+                    We&apos;ll get back to you soon.
                   </p>
                 </div>
               ) : (
