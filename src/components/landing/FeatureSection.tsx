@@ -7,11 +7,11 @@ const FeatureSection = () => {
     <>
       {/* Features Section */}
       <section id="connect" className="py-24 relative">
-        <div className="absolute inset-0 bg-[url('/patterns/dot-pattern.png')] bg-repeat opacity-5"></div>
+        {/* <div className="absolute inset-0 bg-[url('/images/dot-pattern.jpg')] bg-repeat opacity-5"></div> */}
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <div className="inline-block mb-4 px-4 py-1 bg-primary/10 rounded-full text-primary font-medium">
+              <div className="inline-block mb-4 px-4 py-1 bg-secondary/10 rounded-full text-secondary font-medium">
                 Our Offerings
               </div>
               <h2 className="text-4xl font-bold mb-4">How We Connect</h2>
@@ -61,7 +61,7 @@ const FeatureSection = () => {
                     <p className="text-lg text-gray-600">
                       {feature.description}
                     </p>
-                    <button className="flex items-center gap-2 text-primary font-bold group">
+                    <button className="flex items-center gap-2 text-secondary font-bold group">
                       Learn more{" "}
                       <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                     </button>

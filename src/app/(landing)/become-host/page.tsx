@@ -1,8 +1,73 @@
+"use client";
+
 import React from "react";
 import { FaHeart, FaUsers, FaMapMarkedAlt } from "react-icons/fa";
 import NavBar from "@/components/landing/NavBar";
+import { hostApplicationSchema } from "@/lib/hostApplicationSchema";
+import { submitHostApplication } from "@/api/hostApplicationApi";
+import { useFormStatus } from "@/hooks/useFormStatus";
 
 const BecomeHostPage = () => {
+  const {
+    loading,
+    successMsg,
+    errorMsg,
+    setLoading,
+    setSuccessMsg,
+    setErrorMsg,
+    resetStatus,
+  } = useFormStatus();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    resetStatus();
+    setLoading(true);
+    const form = e.currentTarget;
+    // Fix: Use 'name' attribute on all form fields to ensure FormData works
+    const formData = new FormData(form);
+    const fullName = ((formData.get("name") as string) || "").trim();
+    const [firstName, ...lastArr] = fullName.split(" ");
+    const lastName = lastArr.join(" ");
+    const payload = {
+      firstName,
+      lastName,
+      email: (formData.get("email") as string) || "",
+      phone: (formData.get("phone") as string) || "",
+      city: (formData.get("city") as string) || "",
+      country: (formData.get("country") as string) || "India",
+      hostType:
+        (formData.get("hostType") as
+          | "hangout_host"
+          | "journey_host"
+          | "both") || "hangout_host",
+      experience: (formData.get("experience") as string) || "",
+      interests: [],
+      instagramProfile:
+        formData.get("instagramProfile") &&
+        formData.get("instagramProfile") !== ""
+          ? (formData.get("instagramProfile") as string)
+          : undefined,
+    };
+    const parse = hostApplicationSchema.safeParse(payload);
+    if (!parse.success) {
+      setErrorMsg(parse.error.errors[0].message);
+      setLoading(false);
+      return;
+    }
+    try {
+      const res = await submitHostApplication(payload);
+      setSuccessMsg(res.message);
+      form.reset();
+    } catch (err: any) {
+      setErrorMsg(
+        err?.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Floating Navbar */}
@@ -97,7 +162,7 @@ const BecomeHostPage = () => {
                 </div>
 
                 <div className="bg-primary/10 p-6 rounded-xl">
-                  <p className="text-primary font-medium italic">
+                  <p className="text-secondary font-medium italic text-center">
                     &quot;This isn&apos;t just about events. It&apos;s about
                     creating spaces where people come alive again.&quot;
                   </p>
@@ -109,7 +174,7 @@ const BecomeHostPage = () => {
                 <h2 className="text-2xl font-bold mb-6">
                   Apply to Become a Host
                 </h2>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="space-y-4">
                     <div>
                       <label
@@ -121,6 +186,7 @@ const BecomeHostPage = () => {
                       <input
                         type="text"
                         id="name"
+                        name="name"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="Your name"
                         required
@@ -137,6 +203,7 @@ const BecomeHostPage = () => {
                       <input
                         type="email"
                         id="email"
+                        name="email"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="you@example.com"
                         required
@@ -153,6 +220,7 @@ const BecomeHostPage = () => {
                       <input
                         type="tel"
                         id="phone"
+                        name="phone"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="Your phone number"
                       />
@@ -168,8 +236,27 @@ const BecomeHostPage = () => {
                       <input
                         type="text"
                         id="city"
+                        name="city"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="Where you're based"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="country"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Country
+                      </label>
+                      <input
+                        type="text"
+                        id="country"
+                        name="country"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="Country"
+                        defaultValue="India"
                         required
                       />
                     </div>
@@ -183,14 +270,15 @@ const BecomeHostPage = () => {
                       </label>
                       <select
                         id="hostType"
+                        name="hostType"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                         required
                       >
                         <option value="">Select an option</option>
-                        <option value="hangout">
+                        <option value="hangout_host">
                           Hangout Host (local events)
                         </option>
-                        <option value="journey">
+                        <option value="journey_host">
                           Journey Captain (multi-day experiences)
                         </option>
                         <option value="both">Both</option>
@@ -207,24 +295,47 @@ const BecomeHostPage = () => {
                       </label>
                       <textarea
                         id="experience"
+                        name="experience"
                         rows={4}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="Your experience (it's okay if you're just starting out!)"
                       ></textarea>
                     </div>
+
+                    <div>
+                      <label
+                        htmlFor="instagramProfile"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Instagram Profile
+                      </label>
+                      <input
+                        type="url"
+                        id="instagramProfile"
+                        name="instagramProfile"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="https://instagram.com/yourprofile"
+                      />
+                    </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-lg transition-all shadow-md"
+                    className="w-full bg-primary hover:bg-primary/90 font-medium py-3 px-6 rounded-lg transition-all shadow-md disabled:opacity-60"
+                    disabled={loading}
                   >
-                    Submit Application
+                    {loading ? "Submitting..." : "Submit Application"}
                   </button>
-
-                  <p className="text-xs text-gray-500 text-center mt-4">
-                    We&apos;ll reach out to you within 48 hours to discuss next
-                    steps.
-                  </p>
+                  {successMsg && (
+                    <p className="text-green-600 text-center font-medium mt-2">
+                      {successMsg}
+                    </p>
+                  )}
+                  {errorMsg && (
+                    <p className="text-red-600 text-center font-medium mt-2">
+                      {errorMsg}
+                    </p>
+                  )}
                 </form>
               </div>
             </div>

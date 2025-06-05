@@ -1,9 +1,75 @@
+"use client";
+
 import React from "react";
 import { FaUsers, FaHandshake, FaGlobeAmericas } from "react-icons/fa";
 import NavBar from "@/components/landing/NavBar";
 import Footer from "@/components/landing/Footer";
+import { submitHostApplication } from "@/api/hostApplicationApi";
+import { useFormStatus } from "@/hooks/useFormStatus";
+
+const PARTNER_TYPE_TO_HOST_TYPE = {
+  community: "hangout_host",
+  travel: "journey_host",
+  other: "both",
+};
 
 const PartnerPage = () => {
+  const {
+    loading,
+    successMsg,
+    errorMsg,
+    setLoading,
+    setSuccessMsg,
+    setErrorMsg,
+    resetStatus,
+  } = useFormStatus();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    resetStatus();
+    setLoading(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const brandName = (formData.get("organization") as string) || "";
+    const email = (formData.get("email") as string) || "";
+    const phone = (formData.get("phone") as string) || "";
+    const city = (formData.get("city") as string) || "";
+    const country = (formData.get("country") as string) || "";
+    const partnerType = (formData.get("partnerType") as string) || "other";
+    const hostType =
+      (PARTNER_TYPE_TO_HOST_TYPE[
+        partnerType as keyof typeof PARTNER_TYPE_TO_HOST_TYPE
+      ] as "hangout_host" | "journey_host" | "both") || "both";
+    const experience = (formData.get("message") as string) || "";
+    const instagramProfile = (formData.get("instagram") as string) || undefined;
+    const firstName = brandName;
+    const lastName = "(BRAND)";
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      city,
+      country,
+      hostType,
+      experience,
+      interests: [],
+      instagramProfile,
+    };
+    try {
+      const res = await submitHostApplication(payload);
+      setSuccessMsg(res.message);
+      form.reset();
+    } catch (err: any) {
+      setErrorMsg(
+        err?.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Floating Navbar - always visible */}
@@ -242,20 +308,21 @@ const PartnerPage = () => {
               <h3 className="text-2xl font-bold mb-6">
                 Contact Us for Partnership
               </h3>
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label
-                      htmlFor="name"
+                      htmlFor="organization"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Full Name
+                      Brand Name
                     </label>
                     <input
                       type="text"
-                      id="name"
+                      id="organization"
+                      name="organization"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                      placeholder="Your name"
+                      placeholder="Your brand name"
                       required
                     />
                   </div>
@@ -269,30 +336,63 @@ const PartnerPage = () => {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="you@example.com"
                       required
                     />
                   </div>
                 </div>
-
-                <div>
-                  <label
-                    htmlFor="organization"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Organization/Brand Name
-                  </label>
-                  <input
-                    type="text"
-                    id="organization"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    placeholder="Your organization"
-                    required
-                  />
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      placeholder="Your phone number"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      placeholder="Your city"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="country"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Country
+                    </label>
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      placeholder="Your country"
+                      required
+                    />
+                  </div>
                 </div>
-
-                {/* instagram profile */}
                 <div>
                   <label
                     htmlFor="instagram"
@@ -303,11 +403,11 @@ const PartnerPage = () => {
                   <input
                     type="text"
                     id="instagram"
+                    name="instagram"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="Your Instagram profile"
                   />
                 </div>
-
                 <div>
                   <label
                     htmlFor="partnerType"
@@ -317,6 +417,7 @@ const PartnerPage = () => {
                   </label>
                   <select
                     id="partnerType"
+                    name="partnerType"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     required
                   >
@@ -328,7 +429,6 @@ const PartnerPage = () => {
                     <option value="other">Something Unique</option>
                   </select>
                 </div>
-
                 <div>
                   <label
                     htmlFor="message"
@@ -339,20 +439,30 @@ const PartnerPage = () => {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={4}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="Share details about your events, community, or vision..."
                     required
                   ></textarea>
                 </div>
-
                 <button
                   type="submit"
-                  className="w-full bg-primary hover:bg-secondary hover:text-white text-black font-medium py-3 px-6 rounded-lg transition-all shadow-md"
+                  className="w-full bg-primary hover:bg-secondary hover:text-white text-black font-medium py-3 px-6 rounded-lg transition-all shadow-md disabled:opacity-60"
+                  disabled={loading}
                 >
-                  Submit Partnership Request
+                  {loading ? "Submitting..." : "Submit Partnership Request"}
                 </button>
-
+                {successMsg && (
+                  <p className="text-green-600 text-center font-medium mt-2">
+                    {successMsg}
+                  </p>
+                )}
+                {errorMsg && (
+                  <p className="text-red-600 text-center font-medium mt-2">
+                    {errorMsg}
+                  </p>
+                )}
                 <p className="text-xs text-gray-500 text-center">
                   We&apos;ll get back to you within 48 hours to discuss
                   partnership opportunities.

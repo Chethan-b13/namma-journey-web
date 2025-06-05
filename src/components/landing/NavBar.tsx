@@ -47,6 +47,14 @@ const NavBar = ({ alwaysVisible = false }: NavBarProps) => {
           <span className="text-primary">loud</span>
         </Link>
         <div className="hidden md:flex items-center gap-8">
+          <Link
+            href="/"
+            className={`hover:text-secondary ${
+              isActive("/") ? "text-secondary" : ""
+            } transition-colors`}
+          >
+            Home
+          </Link>
           <a
             href="/about"
             className={`hover:text-secondary ${

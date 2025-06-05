@@ -14,7 +14,7 @@ const ValuesSection = () => {
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <div className="inline-block mb-4 px-4 py-1 bg-black/5 rounded-full font-medium">
+              <div className="inline-block mb-4 px-4 py-1 bg-secondary/10 text-secondary rounded-full font-medium">
                 Our Values
               </div>
               <h2 className="text-4xl font-bold mb-4">What We Stand For</h2>
