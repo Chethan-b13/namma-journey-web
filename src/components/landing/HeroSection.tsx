@@ -56,7 +56,7 @@ const HeroSection = () => {
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <a
-                      href="#"
+                      href="https://apps.apple.com/in/app/logoutloud/id6746362059"
                       className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg hover:bg-black/90 transition-all"
                       target="_blank"
                       rel="noopener noreferrer"

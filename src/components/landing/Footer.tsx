@@ -87,6 +87,30 @@ const Footer = () => {
                       Privacy Policy
                     </a>
                   </li>
+                  <li>
+                    <a
+                      href="/terms-and-conditions"
+                      className="hover:text-primary transition-colors"
+                    >
+                      Terms and Conditions
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/refund-policy"
+                      className="hover:text-primary transition-colors"
+                    >
+                      Refund Policy
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/safety-standards"
+                      className="hover:text-primary transition-colors"
+                    >
+                      Safety Standards
+                    </a>
+                  </li>
                 </ul>
               </div>
 
