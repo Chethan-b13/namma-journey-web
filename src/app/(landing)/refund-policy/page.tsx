@@ -95,7 +95,7 @@ const RefundAndCancellationPolicy = () => {
                 </li>
                 <li>
                   Cancellations made on time will be subject to the event
-                  organizer's refund policy.
+                  organizer&apos;s refund policy.
                 </li>
               </ul>
             </div>
