@@ -129,9 +129,11 @@ const PrivacyPolicyPage = () => {
                   <ul className="list-disc pl-6 space-y-2 text-gray-700">
                     <li className="leading-relaxed">
                       <span className="font-medium">Device Information:</span>{" "}
-                      Information about your mobile device, including device
-                      model, operating system, unique device identifiers, mobile
-                      network information, and device settings.
+                      Device Information: Information about your mobile device,
+                      including device model, operating system, mobile network
+                      information, device settings, and unique device
+                      identifiers (such as Android ID, Advertising ID, IMEI, and
+                      MAC address).
                     </li>
                     <li className="leading-relaxed">
                       <span className="font-medium">Usage Data:</span>{" "}
@@ -213,6 +215,10 @@ const PrivacyPolicyPage = () => {
                   <li className="leading-relaxed">
                     Monitor and analyze trends, usage, and activities in
                     connection with the App
+                  </li>
+                  <li>
+                    Use device identifiers for analytics, fraud prevention, and
+                    service functionality.
                   </li>
                   <li className="leading-relaxed">
                     Detect, investigate, and prevent fraudulent transactions and
