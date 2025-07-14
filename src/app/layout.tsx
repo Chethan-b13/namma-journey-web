@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./global.css";
-import { poppins, raleway, sora } from "@/libs/fonts";
+import { poppins, raleway, sora } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Logoutloud",

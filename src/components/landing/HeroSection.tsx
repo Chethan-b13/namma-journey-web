@@ -68,7 +68,7 @@ const HeroSection = () => {
                       </div>
                     </a>
                     <a
-                      href="#"
+                      href="https://play.google.com/store/apps/details?id=com.logoutloud.app"
                       className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg hover:bg-black/90 transition-all"
                       target="_blank"
                       rel="noopener noreferrer"

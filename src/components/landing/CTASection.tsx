@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const CTASection = () => {
@@ -12,7 +13,7 @@ const CTASection = () => {
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <div className="space-y-8">
-              <div className="inline-block mb-4 px-4 py-1 bg-black/10 rounded-full font-medium text-white">
+              <div className="inline-block mb-4 px-4 py-1 bg-secondary/10 rounded-full font-medium text-secondary">
                 Join Our Community
               </div>
               <h2 className="text-4xl md:text-5xl font-bold">
@@ -22,9 +23,13 @@ const CTASection = () => {
                 Join thousands who are rediscovering the joy of real-world
                 connections.
               </p>
-              <button className="bg-white hover:bg-opacity-90 text-primary px-10 py-4 rounded-lg text-lg font-bold transition-all shadow-lg animate-bounce">
+              <Link
+                href="#"
+                scroll={true}
+                className="bg-black hover:bg-opacity-90 text-primary px-10 py-4 rounded-lg text-lg font-bold inline-block"
+              >
                 Start Your Journey
-              </button>
+              </Link>
             </div>
           </div>
         </div>

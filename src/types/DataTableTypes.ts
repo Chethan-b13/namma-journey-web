@@ -36,3 +36,18 @@ export interface DataTablePropsType {
     filters: FilterOptionType[];
   };
 }
+
+export interface ColumnData {
+  avatar?: string;
+  title?: string;
+  subtitle?: string;
+  content?: string;
+  icons?: React.ReactNode[];
+}
+
+export interface CardProps {
+  header?: string;
+  columns?: ColumnData[];
+  columnCount?: number;
+  footer?: React.ReactNode;
+}

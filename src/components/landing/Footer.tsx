@@ -16,7 +16,7 @@ const Footer = () => {
                 </h3>
                 <p className="text-gray-400">Offline is the new vibe.</p>
                 <p className="text-gray-500 text-sm mt-4">
-                  We&apos;re on a mission to help people disconnect from
+                  We&apos;re on a journey to help people disconnect from
                   technology and reconnect with each other through meaningful
                   in-person experiences.
                 </p>

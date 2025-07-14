@@ -1,8 +1,31 @@
 import Image from "next/image";
 import React from "react";
-import { FaHandHoldingHeart, FaHeart, FaLeaf } from "react-icons/fa";
+import { FaHandHoldingHeart, FaHeart } from "react-icons/fa";
+import { GiFootprint } from "react-icons/gi";
 
 const ValuesSection = () => {
+  const values = [
+    {
+      title: "People First, Always",
+      description: `We care more about real friendships than followers. Here, you're seen, heard, and welcomed — just as you are.`,
+      icon: <FaHeart className="text-chart-4 text-3xl" />,
+      image: "/images/values-1.jpg",
+    },
+    {
+      title: "Life Happens Offline",
+      description:
+        "The best moments aren't on screens. They're over chai, shared rides, deep talks, and spontaneous plans. We bring that back.",
+      icon: <GiFootprint className="text-chart-3 text-3xl" />,
+      image: "/images/values-2.jpg",
+    },
+    {
+      title: "Heal, Together",
+      description:
+        "Everyone's going through something. We create safe, fun spaces to laugh, connect, and feel a little more human again.",
+      icon: <FaHandHoldingHeart className="text-secondary text-3xl" />,
+      image: "/images/values-3.jpg",
+    },
+  ];
   return (
     <>
       {/* Values Section */}
@@ -19,42 +42,17 @@ const ValuesSection = () => {
               </div>
               <h2 className="text-4xl font-bold mb-4">What We Stand For</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                We believe in authentic human connections that happen when we
-                put down our phones.
+                We believe the strongest connections are made offline.
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "From Loneliness to Belonging",
-                  description:
-                    "You might come alone, but you'll leave with friends who feel like family. We make it easy to connect without the awkwardness.",
-                  icon: (
-                    <FaHandHoldingHeart className="text-secondary text-3xl" />
-                  ),
-                  image: "/images/values-1.jpg",
-                },
-                {
-                  title: "Let Nature Heal You",
-                  description:
-                    "Step into quiet forests, starry skies, and moments that ground you in the now.",
-                  icon: <FaLeaf className="text-chart-3 text-3xl" />,
-                  image: "/images/values-2.jpg",
-                },
-                {
-                  title: "Make Memories, Not Content",
-                  description:
-                    "Live stories you'll tell forever — not because they got likes, but because they changed you.",
-                  icon: <FaHeart className="text-chart-4 text-3xl" />,
-                  image: "/images/values-3.jpg",
-                },
-              ].map((item, i) => (
+              {values.map((item, i) => (
                 <div
                   key={i}
                   className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group"
                 >
-                  <div className="h-48 relative">
+                  <div className="h-48 relative overflow-hidden">
                     <Image
                       src={item.image}
                       alt={item.title}

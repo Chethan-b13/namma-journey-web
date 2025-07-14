@@ -1,4 +1,4 @@
-import { CardProps } from "@/libs/dummyData";
+import { CardProps } from "@/types/DataTableTypes";
 import React from "react";
 
 const Card: React.FC<CardProps> = ({

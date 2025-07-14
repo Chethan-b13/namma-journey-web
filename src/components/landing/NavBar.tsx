@@ -55,14 +55,14 @@ const NavBar = ({ alwaysVisible = false }: NavBarProps) => {
           >
             Home
           </Link>
-          <a
+          {/* <a
             href="/about"
             className={`hover:text-secondary ${
               isActive("/about") ? "text-secondary" : ""
             } transition-colors`}
           >
             Our Story
-          </a>
+          </a> */}
           <a
             href="/become-host"
             className={`hover:text-secondary ${
