@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.logoutloud.app",
+      "sha256_cert_fingerprints": [
+        "6e:e1:64:1b:b4:ef:b7:04:8a:39:58:1a:e0:07:93:e7:40:a1:bb:e3:1f:36:42:79:54:f8:9c:a0:0e:60:36:10"
+      ]
+    }
+  }
+]

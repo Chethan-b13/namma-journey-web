@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "RSX9MWF66Q.com.logoutloud.app",
+        "paths": [
+          "/hangouts/*",
+          "/journeys/*"
+        ]
+      }
+    ]
+  }
+}
